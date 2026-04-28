@@ -1,0 +1,100 @@
+import type { SkillBadge, ChildBadge, BadgeCode } from "@/types";
+
+export const SKILL_BADGES: Record<BadgeCode, SkillBadge> = {
+  INITIATIVE: {
+    code: "INITIATIVE",
+    title: "Initiative",
+    description: "Propose 5 jobs of your own",
+    emoji: "💡",
+    goal: 5,
+    color: "gold",
+  },
+  FOLLOW_THROUGH: {
+    code: "FOLLOW_THROUGH",
+    title: "Follow-Through",
+    description: "Complete 10 accepted jobs",
+    emoji: "🎯",
+    goal: 10,
+    color: "blue",
+  },
+  STEWARDSHIP: {
+    code: "STEWARDSHIP",
+    title: "Stewardship",
+    description: "Complete 5 cleaning or organizing jobs",
+    emoji: "🌿",
+    goal: 5,
+    color: "green",
+  },
+  HELPER: {
+    code: "HELPER",
+    title: "Helper",
+    description: "Complete 5 service jobs",
+    emoji: "🤝",
+    goal: 5,
+    color: "blue-soft",
+  },
+  ENTREPRENEUR: {
+    code: "ENTREPRENEUR",
+    title: "Entrepreneur",
+    description: "Submit 5 invoices",
+    emoji: "💼",
+    goal: 5,
+    color: "blue",
+  },
+  RESILIENCE: {
+    code: "RESILIENCE",
+    title: "Resilience",
+    description: "Complete a revised job after feedback",
+    emoji: "🔁",
+    goal: 1,
+    color: "gold",
+  },
+  DILIGENCE: {
+    code: "DILIGENCE",
+    title: "Diligence",
+    description: "Complete 3 hard jobs",
+    emoji: "💪",
+    goal: 3,
+    color: "red",
+  },
+  NEGOTIATOR: {
+    code: "NEGOTIATOR",
+    title: "Negotiator",
+    description: "Accept or complete 3 counteroffers",
+    emoji: "🤔",
+    goal: 3,
+    color: "blue-soft",
+  },
+  QUALITY_WORKER: {
+    code: "QUALITY_WORKER",
+    title: "Quality Worker",
+    description: "Complete 10 jobs with all checklist items done",
+    emoji: "⭐",
+    goal: 10,
+    color: "gold",
+  },
+  BONUS_EARNER: {
+    code: "BONUS_EARNER",
+    title: "Bonus Earner",
+    description: "Earn 5 bonuses",
+    emoji: "✨",
+    goal: 5,
+    color: "gold",
+  },
+};
+
+export const DEMO_CHILD_BADGES: Record<string, ChildBadge[]> = {
+  "child-daniel": [
+    { childId: "child-daniel", badgeCode: "INITIATIVE", progress: 5, earned: true, earnedAt: "2026-04-22T12:00:00Z" },
+    { childId: "child-daniel", badgeCode: "FOLLOW_THROUGH", progress: 8, earned: false },
+    { childId: "child-daniel", badgeCode: "ENTREPRENEUR", progress: 3, earned: false },
+    { childId: "child-daniel", badgeCode: "STEWARDSHIP", progress: 4, earned: false },
+    { childId: "child-daniel", badgeCode: "BONUS_EARNER", progress: 2, earned: false },
+    { childId: "child-daniel", badgeCode: "NEGOTIATOR", progress: 1, earned: false },
+  ],
+  "child-mateo": [
+    { childId: "child-mateo", badgeCode: "FOLLOW_THROUGH", progress: 4, earned: false },
+    { childId: "child-mateo", badgeCode: "HELPER", progress: 3, earned: false },
+    { childId: "child-mateo", badgeCode: "STEWARDSHIP", progress: 2, earned: false },
+  ],
+};

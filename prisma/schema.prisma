@@ -1,0 +1,432 @@
+// HomeBiz Kids Prisma Schema
+// MVP: schema is fully defined. Connect to a real PostgreSQL DB by setting
+// DATABASE_URL and running `npx prisma generate && npx prisma db push`.
+// Currently the app uses in-memory demo data via src/lib/demo-data.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PARENT
+  CHILD
+  TRUSTED_ADULT
+}
+
+enum JobStatus {
+  OPEN
+  CLAIMED
+  IN_PROGRESS
+  SUBMITTED
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum ProposalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COUNTERED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SUBMITTED
+  REVISION_REQUESTED
+  RESUBMITTED
+  APPROVED
+  REJECTED
+  PAID
+}
+
+enum RewardType {
+  TOKENS
+  CASH
+  SCREEN_TIME
+  ACTIVITY
+  ALLOWANCE_CREDIT
+  CUSTOM
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+  CHALLENGE
+}
+
+enum ProofRequirement {
+  NONE
+  AFTER_ONLY
+  BEFORE_ONLY
+  BEFORE_AND_AFTER
+}
+
+enum TransactionType {
+  EARNED
+  REDEEMED
+  BONUS
+  DEDUCTION
+  GOAL_CONTRIBUTION
+}
+
+enum RedemptionStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+enum CurrencyType {
+  VIRTUAL_TOKENS
+  FIAT
+  PRIVILEGES
+  PHYSICAL_TOKENS
+}
+
+model User {
+  id            String              @id @default(cuid())
+  name          String
+  email         String?             @unique
+  role          Role
+  avatarUrl     String?
+  avatarColor   String?
+  createdAt     DateTime            @default(now())
+  familyMembers FamilyMember[]
+  jobsPosted    Job[]               @relation("JobPoster")
+  jobsClaimed   Job[]               @relation("JobClaimer")
+  pitches       JobPitch[]
+  invoices      Invoice[]
+  redemptions   RewardRedemption[]
+  feedbackGiven ParentFeedback[]
+  childProfile  ChildProfile?
+}
+
+model Family {
+  id             String                    @id @default(cuid())
+  name           String
+  createdAt      DateTime                  @default(now())
+  members        FamilyMember[]
+  jobs           Job[]
+  rewards        Reward[]
+  economySettings FamilyEconomySettings?
+  reports        WeeklyReport[]
+  praiseBank     PraiseBankItem[]
+}
+
+model FamilyMember {
+  id        String   @id @default(cuid())
+  family    Family   @relation(fields: [familyId], references: [id])
+  familyId  String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  role      Role
+  approved  Boolean  @default(false)
+  joinedAt  DateTime @default(now())
+
+  @@unique([familyId, userId])
+}
+
+model ChildProfile {
+  id             String         @id @default(cuid())
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String         @unique
+  age            Int
+  tokenBalance   Int            @default(0)
+  cashBalance    Float          @default(0)
+  virtues        String[]
+  level          Int            @default(1)
+  streak         Int            @default(0)
+  lifetimeTokens Int            @default(0)
+  completedJobs  Int            @default(0)
+  badges         ChildBadge[]
+  goals          SavingsGoal[]
+  transactions   WalletTransaction[]
+}
+
+model Job {
+  id                String              @id @default(cuid())
+  family            Family              @relation(fields: [familyId], references: [id])
+  familyId          String
+  postedBy          User                @relation("JobPoster", fields: [postedById], references: [id])
+  postedById        String
+  claimedBy         User?               @relation("JobClaimer", fields: [claimedById], references: [id])
+  claimedById       String?
+  title             String
+  description       String
+  category          String
+  difficulty        DifficultyLevel
+  virtues           String[]
+  rewardType        RewardType
+  tokenReward       Int                 @default(0)
+  cashReward        Float               @default(0)
+  customReward      String?
+  status            JobStatus           @default(OPEN)
+  dueDate           DateTime?
+  proofRequirement  ProofRequirement    @default(NONE)
+  isRecurring       Boolean             @default(false)
+  estimatedTime     String?
+  suggestedAgeRange String?
+  pitchId           String?             @unique
+  pitch             JobPitch?           @relation(fields: [pitchId], references: [id])
+  checklist         QualityChecklistItem[]
+  invoices          Invoice[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+model QualityChecklistItem {
+  id        String   @id @default(cuid())
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     String
+  text      String
+  required  Boolean  @default(true)
+  completed Boolean  @default(false)
+  order     Int      @default(0)
+}
+
+model JobPitch {
+  id                  String           @id @default(cuid())
+  proposedBy          User             @relation(fields: [proposedById], references: [id])
+  proposedById        String
+  title               String
+  problemNoticed      String
+  whyItMatters        String
+  proposedSolution    String
+  estimatedTime       String
+  rewardType          RewardType
+  tokenAsk            Int              @default(0)
+  cashAsk             Float            @default(0)
+  whyRewardIsFair     String
+  beforePhotoUrl      String?
+  noteToParent        String?
+  suggestedChecklist  String[]
+  status              ProposalStatus   @default(PENDING)
+  counterOffer        CounterOffer?
+  createdAt           DateTime         @default(now())
+  job                 Job?
+}
+
+model CounterOffer {
+  id                  String          @id @default(cuid())
+  pitch               JobPitch        @relation(fields: [pitchId], references: [id])
+  pitchId             String          @unique
+  authorId            String
+  authorName          String
+  newTokens           Int?
+  newRewardType       RewardType?
+  scopeChange         String?
+  parentNote          String
+  addedChecklistItems String[]
+  childResponse       String?
+  createdAt           DateTime        @default(now())
+}
+
+model Invoice {
+  id                  String              @id @default(cuid())
+  job                 Job                 @relation(fields: [jobId], references: [id])
+  jobId               String
+  submittedBy         User                @relation(fields: [submittedById], references: [id])
+  submittedById       String
+  status              InvoiceStatus       @default(DRAFT)
+  notes               String?
+  reflection          String?
+  signedOff           Boolean             @default(false)
+  submittedAt         DateTime?
+  reviewedAt          DateTime?
+  revisionRequestedAt DateTime?
+  resubmittedAt       DateTime?
+  bonusTokens         Int                 @default(0)
+  createdAt           DateTime            @default(now())
+  photoProofs         PhotoProof[]
+  feedback            ParentFeedback?
+  bonus               Bonus?
+  praiseNote          PraiseNote?
+  revisionRequest     RevisionRequest?
+  transactions        WalletTransaction[]
+}
+
+model PhotoProof {
+  id          String   @id @default(cuid())
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId   String
+  phase       String
+  url         String
+  isPlaceholder Boolean  @default(false)
+  uploadedAt  DateTime @default(now())
+}
+
+model ParentFeedback {
+  id          String   @id @default(cuid())
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId   String   @unique
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  rating      String
+  note        String?
+  bonusTokens Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Bonus {
+  id         String   @id @default(cuid())
+  invoice    Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId  String   @unique
+  amount     Int
+  reason     String
+  parentNote String?
+  createdAt  DateTime @default(now())
+}
+
+model PraiseNote {
+  id         String   @id @default(cuid())
+  invoice    Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId  String   @unique
+  text       String
+  authorId   String
+  authorName String
+  createdAt  DateTime @default(now())
+}
+
+model PraiseBankItem {
+  id       String  @id @default(cuid())
+  family   Family  @relation(fields: [familyId], references: [id])
+  familyId String
+  text     String
+  category String?
+}
+
+model RevisionRequest {
+  id                   String   @id @default(cuid())
+  invoice              Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId            String   @unique
+  authorId             String
+  authorName           String
+  note                 String
+  itemsNeedingAttention String[]
+  createdAt            DateTime @default(now())
+}
+
+model Reward {
+  id          String              @id @default(cuid())
+  family      Family              @relation(fields: [familyId], references: [id])
+  familyId    String
+  title       String
+  description String?
+  tokenCost   Int
+  type        RewardType
+  isActive    Boolean             @default(true)
+  emoji       String?
+  redemptions RewardRedemption[]
+  createdAt   DateTime            @default(now())
+}
+
+model RewardRedemption {
+  id          String           @id @default(cuid())
+  reward      Reward           @relation(fields: [rewardId], references: [id])
+  rewardId    String
+  child       User             @relation(fields: [childId], references: [id])
+  childId     String
+  status      RedemptionStatus @default(PENDING)
+  requestedAt DateTime         @default(now())
+  resolvedAt  DateTime?
+}
+
+model SavingsGoal {
+  id           String       @id @default(cuid())
+  child        ChildProfile @relation(fields: [childId], references: [id])
+  childId      String
+  title        String
+  emoji        String       @default("🎯")
+  targetTokens Int
+  savedTokens  Int          @default(0)
+  targetCash   Float?
+  savedCash    Float?
+  deadline     DateTime?
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+}
+
+model ChildBadge {
+  id         String       @id @default(cuid())
+  child      ChildProfile @relation(fields: [childId], references: [id])
+  childId    String
+  badgeCode  String
+  progress   Int          @default(0)
+  earned     Boolean      @default(false)
+  earnedAt   DateTime?
+
+  @@unique([childId, badgeCode])
+}
+
+model WalletTransaction {
+  id          String          @id @default(cuid())
+  child       ChildProfile    @relation(fields: [childId], references: [id])
+  childId     String
+  type        TransactionType
+  tokens      Int             @default(0)
+  cash        Float           @default(0)
+  description String
+  jobId       String?
+  invoice     Invoice?        @relation(fields: [invoiceId], references: [id])
+  invoiceId   String?
+  createdAt   DateTime        @default(now())
+}
+
+model FamilyEconomySettings {
+  familyId                          String       @id
+  family                            Family       @relation(fields: [familyId], references: [id])
+  currencyType                      CurrencyType @default(VIRTUAL_TOKENS)
+  tokenName                         String       @default("tokens")
+  tokenConversionTokens             Int?
+  tokenConversionCents              Int?
+  requireApprovalForPayouts         Boolean      @default(true)
+  allowChildProposals               Boolean      @default(true)
+  allowTrustedAdultJobs             Boolean      @default(true)
+  defaultProofRequirement           ProofRequirement @default(AFTER_ONLY)
+  requireReflection                 Boolean      @default(true)
+  enableBonuses                     Boolean      @default(true)
+  enableSavingsGoals                Boolean      @default(true)
+  enableSkillBadges                 Boolean      @default(true)
+  enableWeeklyReports               Boolean      @default(true)
+  trustedAdultJobsRequireApproval   Boolean      @default(true)
+}
+
+model WeeklyReport {
+  id                    String                       @id @default(cuid())
+  family                Family                       @relation(fields: [familyId], references: [id])
+  familyId              String
+  weekStart             DateTime
+  weekEnd               DateTime
+  totalJobsCompleted    Int                          @default(0)
+  totalTokensEarned     Int                          @default(0)
+  totalCashEarned       Float                        @default(0)
+  totalRewardsRedeemed  Int                          @default(0)
+  topSkillPracticed     String?
+  mostImpressiveJob     String?
+  suggestedJobsNextWeek String[]
+  childSummaries        WeeklyReportChildSummary[]
+  createdAt             DateTime                     @default(now())
+}
+
+model WeeklyReportChildSummary {
+  id                  String       @id @default(cuid())
+  report              WeeklyReport @relation(fields: [reportId], references: [id])
+  reportId            String
+  childId             String
+  childName           String
+  jobsCompleted       Int          @default(0)
+  tokensEarned        Int          @default(0)
+  cashEarned          Float        @default(0)
+  proposalsSubmitted  Int          @default(0)
+  bonusesEarned       Int          @default(0)
+  skillsPracticed     String[]
+  badgesEarned        String[]
+  topJob              String?
+  praiseHighlights    String[]
+}
