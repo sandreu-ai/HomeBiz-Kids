@@ -10,7 +10,8 @@ Live site: https://homebizkids.com → https://www.homebizkids.com/
 - Production build passes locally with `npm run build`.
 - Live domain responds on Vercel and redirects apex to `www.homebizkids.com`.
 - App currently runs on demo data from `src/lib/demo-data/`.
-- Session is simulated through `src/providers/DemoSessionProvider.tsx`.
+- Clerk is installed/scaffolded with `/sign-in`, `/sign-up`, and `src/proxy.ts`; real protection activates only when Clerk env vars are present.
+- Session/demo state is still simulated through `src/providers/DemoSessionProvider.tsx` until Clerk users are mapped to persisted family records.
 - Prisma schema exists in `prisma/schema.prisma`, but database is not wired.
 - There was no `.env.example` even though the README instructs `cp .env.example .env.local`; this has now been added.
 
@@ -51,14 +52,17 @@ Goal: replace demo-only state with real parent accounts, child profiles, family 
 
 Recommended sequence:
 
-1. Add tests/tooling before production wiring.
-   - Add a test runner suitable for Next/TS server actions.
-   - Add at least unit tests around plan limits and role/family access helpers.
+1. Tests/tooling before production wiring. ✅
+   - Vitest baseline exists via `npm test`.
+   - Safety/product rule tests guard parent-owned child profiles and no-fiat-token architecture.
+   - Clerk setup tests guard auth routes, provider wrapping, env placeholders, and proxy protection.
 
-2. Add Clerk.
-   - Parent signs up/signs in through Clerk.
-   - Child profiles are internal database records under the parent's family.
+2. Clerk scaffold. ✅
+   - Parent sign-up/sign-in routes exist at `/sign-up` and `/sign-in`.
+   - `src/proxy.ts` protects `/dashboard`, `/child`, and `/trusted` when Clerk keys are configured.
+   - Child profiles remain internal database records under the parent's family.
    - Trusted adults can be invited later; do not let them see unrelated family data.
+   - Still needed: real Clerk env vars and mapping Clerk user IDs to family/user records.
 
 3. Add Neon/Postgres.
    - Set `DATABASE_URL`.
@@ -108,13 +112,16 @@ Recommended sequence:
 - `npm audit --audit-level=moderate` reports moderate vulnerabilities under Next/Prisma dependency trees. The automatic fixes suggest breaking downgrades, so do not run `npm audit fix --force` blindly.
 - A Vitest baseline now exists via `npm test`.
 - `src/lib/safety/product-rules.test.ts` codifies core child-safety/product constraints so future schema/type changes cannot accidentally reintroduce in-app fiat wallets or require child email accounts.
+- `src/lib/auth/clerk-setup.test.ts` codifies Clerk integration expectations: dependency installed, provider wraps the app when configured, `/sign-in` and `/sign-up` exist, `src/proxy.ts` protects app sections, and `.env.example` uses placeholders only.
+- `src/providers/index.tsx` intentionally runs without `ClerkProvider` when `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is absent so local demo mode and Vercel preview builds do not crash before Clerk env vars are installed.
+- `src/proxy.ts` uses the Next.js 16 proxy convention instead of deprecated `middleware.ts`; it passes through while Clerk keys are absent and protects `/dashboard`, `/child`, and `/trusted` once both Clerk keys exist.
 - Prisma 7 uses `prisma.config.ts` for `DATABASE_URL`; keep `datasource db` in `prisma/schema.prisma` provider-only unless the Prisma version is intentionally changed.
 - Keep demo data available for marketing and screenshots, but gate demo-switcher behavior outside production unless intentionally enabled for demos.
 
 ## Access needed from Santiago when implementation begins
 
 - Vercel project access for deployment/env vars.
-- Clerk project access after Clerk is created.
+- Clerk project keys so Clerk can be activated locally/Vercel: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`.
 - Neon/Postgres access after database is created.
 - Stripe test-mode access before billing integration.
 - Domain registrar access is not needed unless DNS changes are required.

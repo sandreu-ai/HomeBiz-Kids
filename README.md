@@ -4,7 +4,7 @@
 
 HomeBiz Kids helps parents form capable, goal-oriented, generous children while bringing more peace to the home. Parents create missions around household help, sibling service, social courage, detailed follow-through, and delayed gratification; kids can also pitch work they notice and learn to create value instead of only trading time for money.
 
-Built with Next.js 16, TypeScript, Tailwind 4, and a fully designed Prisma schema. Currently runs on demo data — connect a real Postgres database when ready.
+Built with Next.js 16, TypeScript, Tailwind 4, Clerk auth scaffolding, and a fully designed Prisma schema. Currently runs on demo data — add Clerk keys and connect a real Postgres database when ready.
 
 [![Built with Next.js](https://img.shields.io/badge/Built_with-Next.js_16-blue)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org)
@@ -16,7 +16,7 @@ Built with Next.js 16, TypeScript, Tailwind 4, and a fully designed Prisma schem
 
 ```bash
 npm install
-cp .env.example .env.local       # fill in DATABASE_URL when connecting Postgres
+cp .env.example .env.local       # fill in Clerk keys and DATABASE_URL when connecting services
 npm run dev                      # http://localhost:3000
 ```
 
@@ -90,7 +90,8 @@ Plan limits live in [`src/lib/plan.ts`](src/lib/plan.ts).
 - **Animations**: framer-motion
 - **Fonts**: DM Sans, Caveat, DM Mono via `next/font`
 - **Database (defined, not wired)**: Prisma + PostgreSQL — full schema in [`prisma/schema.prisma`](prisma/schema.prisma)
-- **Session**: `DemoSessionProvider` (drop-in replaceable with Clerk/NextAuth/Supabase)
+- **Auth (scaffolded)**: Clerk via `@clerk/nextjs`; `src/proxy.ts` protects app sections once Clerk keys are configured, while local/no-key mode falls back to demo sessions
+- **Session/demo state**: `DemoSessionProvider` powers the current demo data until persisted family records replace it
 - **PWA**: installable on iOS, Android, and desktop via `manifest.json`
 
 ---
@@ -106,7 +107,8 @@ homebiz-kids/
 │   └── icons/                    # PWA icon sizes
 ├── scripts/gen-icons.mjs         # PWA icon generator (run once)
 └── src/
-    ├── app/                      # All routes (Next.js App Router)
+    ├── app/                      # All routes (Next.js App Router), including /sign-in and /sign-up
+    ├── proxy.ts                  # Clerk route protection; pass-through until Clerk keys exist
     ├── components/
     │   ├── ui/                   # shadcn-style primitives
     │   ├── ui-custom/            # EmptyState, PageHeader, UpgradeBanner, etc.
@@ -133,6 +135,25 @@ homebiz-kids/
     └── types/
         └── index.ts              # All shared types
 ```
+
+---
+
+## Wiring Clerk Auth
+
+Clerk is installed and scaffolded, but real hosted sign-in/sign-up appears only after keys are added.
+
+1. Create a Clerk application.
+2. Copy `.env.example` to `.env.local`.
+3. Set:
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+   - `CLERK_SECRET_KEY`
+   - keep `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`
+   - keep `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up`
+   - keep `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard`
+   - keep `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard`
+4. Add the same values in Vercel Project Settings → Environment Variables.
+
+Until both required keys exist, `src/providers/index.tsx` keeps the app in demo/no-key mode and `src/proxy.ts` passes requests through. Once keys are present, `/dashboard`, `/child`, and `/trusted` are protected by Clerk while marketing routes remain public.
 
 ---
 
@@ -176,7 +197,7 @@ Then go to [vercel.com/new](https://vercel.com/new), import the repo, and click 
 
 ## Roadmap to Production
 
-- **Auth** — replace `DemoSessionProvider` with Clerk (`@clerk/nextjs`)
+- **Auth** — Clerk is scaffolded (`@clerk/nextjs`, `/sign-in`, `/sign-up`, guarded `src/proxy.ts`); next step is adding real Clerk env vars in Vercel/local and mapping Clerk user IDs to parent/family records
 - **Database** — connect Neon, Supabase, or any Postgres host
 - **Photo uploads** — wire `PhotoUploadCard` to UploadThing or Supabase Storage
 - **Stripe** — connect Pricing page CTAs to Stripe Checkout for the Family plan
