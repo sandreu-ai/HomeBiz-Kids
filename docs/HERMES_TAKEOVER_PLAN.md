@@ -23,6 +23,28 @@ Live site: https://homebizkids.com → https://www.homebizkids.com/
 - Preserve a demo/marketing mode for screenshots and product walkthroughs.
 - Keep plan gates centralized in `src/lib/plan.ts`.
 
+## Brand kit rules
+
+### Wordmark color sequence
+
+Use the HomeBiz Kids letter-by-letter wordmark color sequence:
+
+```text
+H = Blue        o = Red       m = Yellow    e = Blue
+B = Green      i = Red       z = Yellow
+K = Blue       i = Yellow    d = Green     s = Red
+```
+
+Rule: order rotates Blue → Red → Yellow → Green; never two adjacent letters in the same color.
+
+### Voice rules — marketing and in-product copy
+
+1. Talk to kids like young entrepreneurs. Talk to parents like adults.
+2. Praise the action, never the personality.
+3. Use Caveat once or twice per surface — never as a heading by itself.
+4. Pastel = emotion. Blue = trust. Yellow = reward. Green = success. Red = decline only.
+5. One primary action per card. Counteroffer is a 1st-class citizen.
+
 ## Phase 1 — Make accounts real
 
 Goal: replace demo-only state with real parent accounts, child profiles, family data, and persisted forms.
