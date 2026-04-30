@@ -140,12 +140,16 @@ homebiz-kids/
 
 ```bash
 # 1. Set DATABASE_URL in .env.local
-# 2. Generate Prisma client + push schema
+# 2. Validate the Prisma 7 config + schema
+npx prisma validate
+# 3. Generate Prisma client + push schema
 npx prisma generate
 npx prisma db push
-# 3. (Optional) Write prisma/seed.ts based on src/lib/demo-data/, then:
+# 4. (Optional) Write prisma/seed.ts based on src/lib/demo-data/, then:
 npx prisma db seed
 ```
+
+Prisma 7 reads the database URL from `prisma.config.ts`, which loads `.env.local` first and then `.env`.
 
 To swap demo reads for real Prisma reads, replace each page's `DEMO_*` import with a Prisma query in a Server Component or Server Action. Component props and types stay identical.
 

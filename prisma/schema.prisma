@@ -1,6 +1,6 @@
 // HomeBiz Kids Prisma Schema
 // MVP: schema is fully defined. Connect to a real PostgreSQL DB by setting
-// DATABASE_URL and running `npx prisma generate && npx prisma db push`.
+// DATABASE_URL in .env.local; Prisma 7 reads it through prisma.config.ts.
 // Currently the app uses in-memory demo data via src/lib/demo-data.
 
 generator client {
@@ -9,7 +9,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -47,10 +46,8 @@ enum InvoiceStatus {
 
 enum RewardType {
   TOKENS
-  CASH
   SCREEN_TIME
   ACTIVITY
-  ALLOWANCE_CREDIT
   CUSTOM
 }
 
@@ -84,7 +81,6 @@ enum RedemptionStatus {
 
 enum CurrencyType {
   VIRTUAL_TOKENS
-  FIAT
   PRIVILEGES
   PHYSICAL_TOKENS
 }
@@ -138,7 +134,6 @@ model ChildProfile {
   userId         String         @unique
   age            Int
   tokenBalance   Int            @default(0)
-  cashBalance    Float          @default(0)
   virtues        String[]
   level          Int            @default(1)
   streak         Int            @default(0)
@@ -164,7 +159,6 @@ model Job {
   virtues           String[]
   rewardType        RewardType
   tokenReward       Int                 @default(0)
-  cashReward        Float               @default(0)
   customReward      String?
   status            JobStatus           @default(OPEN)
   dueDate           DateTime?
@@ -201,7 +195,6 @@ model JobPitch {
   estimatedTime       String
   rewardType          RewardType
   tokenAsk            Int              @default(0)
-  cashAsk             Float            @default(0)
   whyRewardIsFair     String
   beforePhotoUrl      String?
   noteToParent        String?
@@ -345,8 +338,6 @@ model SavingsGoal {
   emoji        String       @default("🎯")
   targetTokens Int
   savedTokens  Int          @default(0)
-  targetCash   Float?
-  savedCash    Float?
   deadline     DateTime?
   isActive     Boolean      @default(true)
   createdAt    DateTime     @default(now())
@@ -370,7 +361,6 @@ model WalletTransaction {
   childId     String
   type        TransactionType
   tokens      Int             @default(0)
-  cash        Float           @default(0)
   description String
   jobId       String?
   invoice     Invoice?        @relation(fields: [invoiceId], references: [id])
@@ -384,7 +374,6 @@ model FamilyEconomySettings {
   currencyType                      CurrencyType @default(VIRTUAL_TOKENS)
   tokenName                         String       @default("tokens")
   tokenConversionTokens             Int?
-  tokenConversionCents              Int?
   requireApprovalForPayouts         Boolean      @default(true)
   allowChildProposals               Boolean      @default(true)
   allowTrustedAdultJobs             Boolean      @default(true)
@@ -405,7 +394,6 @@ model WeeklyReport {
   weekEnd               DateTime
   totalJobsCompleted    Int                          @default(0)
   totalTokensEarned     Int                          @default(0)
-  totalCashEarned       Float                        @default(0)
   totalRewardsRedeemed  Int                          @default(0)
   topSkillPracticed     String?
   mostImpressiveJob     String?
@@ -422,7 +410,6 @@ model WeeklyReportChildSummary {
   childName           String
   jobsCompleted       Int          @default(0)
   tokensEarned        Int          @default(0)
-  cashEarned          Float        @default(0)
   proposalsSubmitted  Int          @default(0)
   bonusesEarned       Int          @default(0)
   skillsPracticed     String[]

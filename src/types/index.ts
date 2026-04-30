@@ -238,7 +238,6 @@ export interface WalletTransaction {
   childId: string;
   type: TransactionType;
   tokens?: number;
-  cash?: number;
   description: string;
   jobId?: string;
   invoiceId?: string;
@@ -355,8 +354,6 @@ export interface SavingsGoal {
   emoji: string;
   targetTokens: number;
   savedTokens: number;
-  targetCash?: number;
-  savedCash?: number;
   deadline?: string;
   isActive: boolean;
   createdAt: string;

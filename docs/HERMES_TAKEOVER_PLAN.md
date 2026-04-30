@@ -106,7 +106,9 @@ Recommended sequence:
 ## Known technical notes
 
 - `npm audit --audit-level=moderate` reports moderate vulnerabilities under Next/Prisma dependency trees. The automatic fixes suggest breaking downgrades, so do not run `npm audit fix --force` blindly.
-- There are currently no test scripts in `package.json`.
+- A Vitest baseline now exists via `npm test`.
+- `src/lib/safety/product-rules.test.ts` codifies core child-safety/product constraints so future schema/type changes cannot accidentally reintroduce in-app fiat wallets or require child email accounts.
+- Prisma 7 uses `prisma.config.ts` for `DATABASE_URL`; keep `datasource db` in `prisma/schema.prisma` provider-only unless the Prisma version is intentionally changed.
 - Keep demo data available for marketing and screenshots, but gate demo-switcher behavior outside production unless intentionally enabled for demos.
 
 ## Access needed from Santiago when implementation begins
