@@ -8,10 +8,10 @@ export function EyebrowLabel({ className, children, ...props }: EyebrowLabelProp
   return (
     <span
       className={cn(
-        "font-mono text-[10px] font-semibold uppercase text-ink-3",
+        "font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-3",
         className
       )}
-      style={{ letterSpacing: "0.14em" }}
+      style={{ letterSpacing: "0.1em" }}
       {...props}
     >
       {children}
