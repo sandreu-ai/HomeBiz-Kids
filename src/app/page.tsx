@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PublicNav } from "@/components/layout/PublicNav";
 import { PublicFooter } from "@/components/layout/PublicFooter";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 import {
   Zap,
   Camera,
@@ -115,35 +116,9 @@ export default function LandingPage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-tint via-bone to-yellow-tint pointer-events-none" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-14 pb-24 text-center relative">
-          <div className="relative mx-auto mb-6 w-full max-w-sm sm:max-w-md">
-            <div className="absolute -left-3 top-6 h-12 w-12 rounded-2xl bg-yellow rotate-[-8deg] opacity-80" />
-            <div className="absolute -right-3 bottom-5 h-14 w-14 rounded-full bg-green-soft opacity-90" />
-            <div className="relative overflow-hidden rounded-3xl border border-line bg-white/90 p-4 text-left shadow-card backdrop-blur">
-              <div className="mb-3 flex items-center justify-between">
-                <div>
-                  <p className="font-script text-xl font-bold text-blue-deep">Today’s formation missions</p>
-                  <p className="text-[11px] font-medium text-ink-3">Parent-created. Kid-owned. Family-forming.</p>
-                </div>
-                <div className="rounded-full bg-yellow-tint px-2.5 py-1 text-xs font-bold text-yellow-ink">
-                  45 ✦
-                </div>
-              </div>
-              <div className="grid gap-2">
-                {[
-                  ["Say hi first", "Courage", "20 ✦", "bg-blue-tint text-blue-deep"],
-                  ["Do 3 sibling favors", "Service", "25 ✦", "bg-green-tint text-blue-deep"],
-                  ["Save toward goal", "Patience", "+10 ✦", "bg-yellow-tint text-yellow-ink"],
-                ].map(([mission, virtue, reward, tone]) => (
-                  <div key={mission} className="flex items-center gap-2 rounded-2xl border border-line-soft bg-paper-2 px-3 py-2">
-                    <span className={`h-2.5 w-2.5 rounded-full ${tone.split(" ")[0]}`} />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-bold text-ink">{mission}</p>
-                      <p className="text-[11px] font-medium text-ink-3">{virtue}</p>
-                    </div>
-                    <span className={`rounded-full px-2 py-1 text-[11px] font-bold ${tone}`}>{reward}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="mb-6 flex justify-center">
+            <div className="rounded-3xl bg-white/80 p-4 shadow-card ring-1 ring-line/70 backdrop-blur">
+              <Logo size={86} />
             </div>
           </div>
 
