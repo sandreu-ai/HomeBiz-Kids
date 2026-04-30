@@ -105,7 +105,7 @@ export function FamilyEconomyForm({ initial }: FamilyEconomyFormProps) {
         <div className="divide-y divide-line">
           <Toggle
             label="Require parent approval for all payouts"
-            hint="Tokens or cash only move after you approve."
+            hint="Tokens only move after you approve. Any real-world reward stays outside the app."
             value={s.requireApprovalForPayouts}
             onChange={(v) => update("requireApprovalForPayouts", v)}
           />

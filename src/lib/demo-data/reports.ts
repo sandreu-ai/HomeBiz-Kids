@@ -9,7 +9,7 @@ export const DEMO_WEEKLY_REPORT: WeeklyReport = {
   totalTokensEarned: 130,
   totalRewardsRedeemed: 1,
   topSkillPracticed: "Initiative",
-  mostImpressiveJob: "Daniel proposed and completed Deep Clean My Room without being asked",
+  mostImpressiveJob: "Daniel practiced saying hi first and followed through with courage",
   childSummaries: [
     {
       childId: "child-daniel",
@@ -20,10 +20,10 @@ export const DEMO_WEEKLY_REPORT: WeeklyReport = {
       bonusesEarned: 1,
       skillsPracticed: ["Initiative", "Diligence", "Service", "Follow-Through"],
       badgesEarned: ["INITIATIVE"],
-      topJob: "Read to Mateo (above & beyond)",
+      topJob: "Did quiet favors for Mateo",
       praiseHighlights: [
-        "You showed initiative.",
-        "You went above and beyond.",
+        "You practiced courage by going first.",
+        "You served your sibling without making it about yourself.",
       ],
     },
     {
@@ -35,14 +35,14 @@ export const DEMO_WEEKLY_REPORT: WeeklyReport = {
       bonusesEarned: 0,
       skillsPracticed: ["Responsibility", "Follow-Through"],
       badgesEarned: [],
-      topJob: "Take out trash for the week",
+      topJob: "Owned trash day without reminders",
       praiseHighlights: ["You showed responsibility."],
     },
   ],
   suggestedJobsNextWeek: [
-    "Mateo could try organizing the bookshelf (in progress)",
-    "Daniel could pitch a creative business idea",
-    "Both kids: pull weeds together",
+    "Mateo could create a peaceful reading shelf",
+    "Daniel could design a value-creation plan",
+    "Both kids: do one sibling favor together",
   ],
   createdAt: "2026-04-26T20:00:00Z",
 };

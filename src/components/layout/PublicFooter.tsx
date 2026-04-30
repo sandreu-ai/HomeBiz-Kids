@@ -12,8 +12,7 @@ export function PublicFooter() {
               <span className="font-extrabold text-lg tracking-tight">HomeBiz Kids</span>
             </div>
             <p className="text-sm text-white/60 leading-relaxed max-w-xs">
-              Teach your kids to spot work, take initiative, and earn with purpose.
-              Your child's first tiny business dashboard.
+              A family marketplace that rewires the brain — helping kids practice initiative, service, standards, and delayed gratification while bringing more peace to the home.
             </p>
           </div>
 

@@ -12,7 +12,7 @@ export default function HomeschoolPortfolioPage() {
     <div className="max-w-4xl mx-auto">
       <PageHeader
         title="Homeschool Portfolio"
-        subtitle="Turn real family work into a record of life skills, responsibility, and entrepreneurship"
+        subtitle="Turn family missions into a record of life skills, service, initiative, and entrepreneurship"
       >
         <Button variant="gold">
           <Download className="w-4 h-4" />

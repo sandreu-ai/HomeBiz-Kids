@@ -11,17 +11,17 @@ const PLANS = [
     name: "Free",
     price: "$0",
     period: "forever",
-    description: "Try the basics with one child.",
+    description: "Start forming one child with missions, tokens, and savings goals.",
     cta: "Start free",
     highlight: false,
     features: [
       { included: true, text: "1 child profile" },
-      { included: true, text: "3 active jobs per month" },
+      { included: true, text: "3 active missions per month" },
       { included: true, text: "30-day work history" },
       { included: true, text: "Reward store with custom rewards" },
       { included: true, text: "Savings goals" },
       { included: false, text: "Before / after photo proof" },
-      { included: false, text: "Child-created job pitches" },
+      { included: false, text: "Child-created value pitches" },
       { included: false, text: "Trusted adults" },
       { included: false, text: "Quality checklists & bonuses" },
       { included: false, text: "Weekly family reports" },
@@ -33,15 +33,15 @@ const PLANS = [
     price: "$8.99",
     period: "/month",
     yearly: "or $89/year — save $18",
-    description: "Free your weekends. Raise capable kids.",
+    description: "Form capable kids. Create more peace at home.",
     cta: "Get the Family plan",
     highlight: true,
     features: [
       { included: true, text: "Unlimited children" },
-      { included: true, text: "Unlimited jobs" },
+      { included: true, text: "Unlimited formation missions" },
       { included: true, text: "Full work history forever" },
       { included: true, text: "Before / after photo proof" },
-      { included: true, text: "Child-created job pitches & counteroffers" },
+      { included: true, text: "Child-created value pitches & counteroffers" },
       { included: true, text: "Quality checklists" },
       { included: true, text: "Bonuses + praise bank" },
       { included: true, text: "Up to 4 trusted adults" },
@@ -62,11 +62,10 @@ export default function PricingPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center mb-16">
           <EyebrowLabel className="mb-4 inline-block">Pricing</EyebrowLabel>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-ink mb-4 leading-tight tracking-tight">
-            Free your weekend for less than a coffee.
+            Build a calmer family economy for less than a coffee.
           </h1>
           <p className="text-lg text-ink-3 leading-relaxed">
-            Free forever for one child. Upgrade when your family is ready —
-            cancel anytime, your work history stays with you.
+            Free forever for one child. Upgrade when you are ready to build a fuller family marketplace around character, service, savings goals, and household peace.
           </p>
         </div>
 
@@ -182,8 +181,7 @@ export default function PricingPage() {
           <div className="text-center mt-16 max-w-xl mx-auto">
             <h3 className="text-lg font-bold text-ink mb-2">No app store fees. No surprises.</h3>
             <p className="text-sm text-ink-3 leading-relaxed">
-              HomeBiz Kids only deals in virtual tokens — there's no real-money exchange in the app.
-              Tokens redeem for whatever your family decides. Privacy-first for kids: no ads, no tracking, no public profiles.
+              HomeBiz Kids only deals in virtual tokens — there is no real-money exchange in the app. Tokens redeem for whatever your family decides: privileges, savings goals, family experiences, or parent-defined rewards. Privacy-first for kids: no ads, no tracking, no public profiles.
             </p>
           </div>
 

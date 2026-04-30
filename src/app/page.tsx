@@ -7,7 +7,6 @@ import {
   Camera,
   Receipt,
   Coins,
-  ShieldCheck,
   Star,
   Users,
   Briefcase,
@@ -20,44 +19,44 @@ import {
 const FEATURES = [
   {
     icon: Briefcase,
-    title: "Post Jobs",
+    title: "Create Missions",
     description:
-      "Parents create detailed job listings with rewards, difficulty ratings, and proof requirements.",
+      "Turn household needs, sibling service, social courage, stewardship, and habit-building into clear rewarded missions.",
     color: "bg-blue-tint text-blue-deep",
   },
   {
     icon: Lightbulb,
-    title: "Propose Work",
+    title: "Pitch Value",
     description:
-      "Kids spot something that needs doing, propose it as a job, and negotiate their reward.",
+      "Kids learn to notice problems, propose value, negotiate fairly, and think beyond trading time for money.",
     color: "bg-yellow-tint text-yellow-ink",
   },
   {
     icon: Camera,
-    title: "Upload Proof",
+    title: "Show the Standard",
     description:
-      "Before and after photos turn completed work into visual proof of transformation.",
+      "Photo proof, checklists, and reflections define “done” before work begins.",
     color: "bg-red-tint text-red-deep",
   },
   {
     icon: Receipt,
-    title: "Submit Invoices",
+    title: "Reflect and Own It",
     description:
-      "Kids sign and submit real invoices. Parents review them like tiny entrepreneurs.",
+      "Kids explain what they did, who it helped, and why the reward was earned.",
     color: "bg-blue-tint text-blue-deep",
   },
   {
     icon: Coins,
-    title: "Earn Rewards",
+    title: "Practice Delayed Gratification",
     description:
-      "Tokens, cash, and custom prizes — a real reward economy kids can see growing.",
+      "Tokens flow toward savings goals, privileges, and family-defined rewards — never in-app fiat.",
     color: "bg-yellow-tint text-yellow-ink",
   },
   {
     icon: Heart,
-    title: "Build Character",
+    title: "Nourish Family Bonds",
     description:
-      "Every job builds responsibility, initiative, diligence, and follow-through.",
+      "Sibling favors, parent-approved missions, and trusted-adult encouragement make service visible and repeatable.",
     color: "bg-green-soft text-blue-deep",
   },
 ];
@@ -65,27 +64,27 @@ const FEATURES = [
 const HOW_IT_WORKS = [
   {
     step: "01",
-    title: "Parent posts a job",
+    title: "Parent spots a growth moment",
     description:
-      "Set the task, reward, difficulty, and whether proof is required. Or leave it open for kids to claim.",
+      "Create a mission around a responsibility, virtue, household need, sibling favor, or social-growth challenge.",
   },
   {
     step: "02",
-    title: "Child spots the work",
+    title: "Child accepts or pitches value",
     description:
-      "Kids browse open jobs or propose their own. They take a before photo to document the starting point.",
+      "Kids learn to notice what would bless the family, make a case, and take ownership of the standard.",
   },
   {
     step: "03",
-    title: "Work gets done",
+    title: "The habit gets practiced",
     description:
-      "Child completes the job, takes an after photo, and submits an invoice with a personal note.",
+      "They follow through, document the result, reflect on what changed, and connect reward to real contribution.",
   },
   {
     step: "04",
-    title: "Parent reviews and pays",
+    title: "Parent reinforces formation",
     description:
-      "Compare before and after, leave feedback, approve the invoice, and watch your child's pride grow.",
+      "Approve, counteroffer, or coach with specific feedback that forms character without nagging.",
   },
 ];
 
@@ -100,6 +99,11 @@ const SKILLS = [
   "Honesty",
   "Entrepreneurship",
   "Stewardship",
+  "Service",
+  "Courage",
+  "Delayed Gratification",
+  "Goal Orientation",
+  "Attention to Detail",
 ];
 
 export default function LandingPage() {
@@ -113,22 +117,21 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-20 pb-24 text-center relative">
           <div className="inline-flex items-center gap-2 bg-white border border-line rounded-full px-4 py-1.5 text-xs font-medium text-ink-3 mb-8 shadow-soft">
             <span className="w-2 h-2 rounded-full bg-blue-deep animate-pulse" />
-            Your child's first tiny business
+            A family marketplace that rewires the brain!
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-ink leading-[1.1] tracking-tight mb-6">
-            Your kids do the work.
+            Raise kids who notice, serve, and lead.
             <br />
             <span className="text-blue-deep relative">
-              You get your weekends back.
+              Build character and peace at home.
               <span className="absolute -bottom-1 left-0 right-0 h-[4px] bg-yellow rounded" />
             </span>
           </h1>
 
           <p className="text-lg text-ink-3 max-w-2xl mx-auto leading-relaxed mb-10">
-            HomeBiz Kids turns everyday family work into a real economy.
-            Kids spot jobs, pitch a price, do the work, and send you an invoice.
-            <span className="font-semibold text-ink"> They learn responsibility and entrepreneurship — you get a cleaner house and time to think.</span>
+            HomeBiz Kids helps parents turn real family needs into formation moments: helping around the house, serving siblings, practicing courage, saving toward goals, and learning to create value instead of just trading time for money.
+            <span className="font-semibold text-ink"> The result is a more capable child, a calmer home, and a family culture where initiative is noticed and rewarded.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -155,7 +158,7 @@ export default function LandingPage() {
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-ink mb-3">How it works</h2>
             <p className="text-ink-3 max-w-xl mx-auto">
-              Four simple steps turn household chores into a real work experience.
+              Use everyday family needs to form initiative, diligence, service, delayed gratification, and peace at home.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -179,22 +182,20 @@ export default function LandingPage() {
             <div>
               <div className="inline-flex items-center gap-2 bg-blue-tint text-blue-deep text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
                 <Camera className="w-3.5 h-3.5" />
-                Proof of Work
+                Formation You Can See
               </div>
               <h2 className="text-3xl font-bold text-ink mb-4">
-                See the transformation, not just the result.
+                See growth, not just completion.
               </h2>
               <p className="text-ink-3 leading-relaxed mb-6">
-                Before and after photos give kids a sense of pride in their work —
-                and give parents a visual record of what was actually done. No more
-                "I already did it."
+                Proof, checklists, and reflections help children see the difference between “I did it” and “I did it with care.” Parents get a clear record without turning every task into an argument.
               </p>
               <div className="space-y-3">
                 {[
                   "Before photos document the starting point",
                   "After photos prove the transformation",
-                  "Parents compare side-by-side before approving",
-                  "Completed work becomes part of a portfolio",
+                  "Parents can coach standards before approving",
+                  "Completed work becomes a character portfolio",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-blue-deep mt-0.5 shrink-0" />
@@ -207,7 +208,7 @@ export default function LandingPage() {
             {/* Mock before/after card */}
             <div className="bg-white rounded-3xl border border-line shadow-card-hover p-6">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-semibold text-ink">Clean Your Room</span>
+                <span className="text-sm font-semibold text-ink">Do 3 Favors for Siblings</span>
                 <span className="text-xs bg-blue-tint text-blue-deep px-2.5 py-1 rounded-full font-medium">
                   Approved ✓
                 </span>
@@ -235,7 +236,7 @@ export default function LandingPage() {
               <div className="bg-blue-tint rounded-xl p-3">
                 <p className="text-xs font-medium text-blue-deep mb-1">Parent feedback</p>
                 <p className="text-xs text-ink-3 italic">
-                  "Great job noticing without being asked. You showed excellent initiative."
+                  "You noticed what needed doing and followed through without being asked. That is initiative."
                 </p>
               </div>
 
@@ -273,22 +274,22 @@ export default function LandingPage() {
                 </span>
               </div>
 
-              <h3 className="font-bold text-ink mb-2">Deep Clean the Bathroom</h3>
+              <h3 className="font-bold text-ink mb-2">Say Hi First to 10 People</h3>
               <p className="text-sm text-ink-3 mb-3 leading-relaxed">
-                I will scrub the toilet, sink, and tub, wipe down all surfaces, clean the mirror, and mop the floor.
+                I will practice courage by greeting 10 people first today, looking them in the eye, and using their name if I know it.
               </p>
 
               <div className="bg-white rounded-xl p-3 mb-4 border border-line">
                 <p className="text-xs font-semibold text-ink mb-1">Why it matters</p>
                 <p className="text-xs text-ink-3 italic">
-                  "A clean bathroom is healthier for our whole family and guests will feel more comfortable."
+                  "I am shy, but I can become the kind of person who notices people and makes them feel welcome."
                 </p>
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                   <span className="text-yellow-deep">✦</span>
-                  <span className="text-sm font-bold text-yellow-ink">35 tokens requested</span>
+                  <span className="text-sm font-bold text-yellow-ink">20 tokens requested</span>
                 </div>
                 <div className="flex gap-2">
                   <button className="text-xs bg-red-tint text-red-deep px-3 py-1.5 rounded-lg font-medium">
@@ -304,22 +305,20 @@ export default function LandingPage() {
             <div className="order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 bg-yellow-tint text-yellow-ink text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
                 <Lightbulb className="w-3.5 h-3.5" />
-                Child Proposals
+                Pitches Are One Door In
               </div>
               <h2 className="text-3xl font-bold text-ink mb-4">
-                Kids see something that needs doing — and turn it into a job.
+                Pitches matter — but formation is the whole point.
               </h2>
               <p className="text-ink-3 leading-relaxed mb-6">
-                The most powerful feature in HomeBiz Kids isn't the chores parents
-                post — it's the work kids spot on their own. Teaching initiative
-                is the whole point.
+                Kids can pitch their own ideas, but parents can also assign formation challenges: say hi first to 10 people, do three quiet favors for siblings, save for a long-term goal, or practice a weak habit until it becomes strength.
               </p>
               <div className="space-y-3">
                 {[
-                  "Child spots a job around the house",
-                  "Proposes it with a description, why it matters, and a price",
-                  "Takes a before photo as documentation",
-                  "Parent approves, rejects, or makes a counteroffer",
+                  "Child spots a need or receives a growth challenge",
+                  "Connects the work to value, virtue, and reward",
+                  "Practices the standard with proof or reflection",
+                  "Parent approves, counteroffers, coaches, or redirects",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-yellow-deep mt-0.5 shrink-0" />
@@ -339,21 +338,19 @@ export default function LandingPage() {
             <div>
               <div className="inline-flex items-center gap-2 bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
                 <Receipt className="w-3.5 h-3.5" />
-                Kid-Friendly Invoices
+                Reflection + Reward
               </div>
               <h2 className="text-3xl font-bold mb-4">
-                Real invoices. Real pride.
+                Rewards tied to real growth.
               </h2>
               <p className="text-white/70 leading-relaxed mb-6">
-                After finishing a job, kids submit a professional-style invoice —
-                complete with their name, job description, before/after photos,
-                and a personal reflection. Then they sign it.
+                After finishing a mission, kids can submit proof and a reflection: what they did, who it helped, what virtue it practiced, and why the reward was earned.
               </p>
               <p className="text-sm font-semibold text-yellow-deep mb-2">
-                "I confirm that I completed this work honestly and carefully."
+                "I confirm that I did this honestly, carefully, and with a good attitude."
               </p>
               <p className="text-white/50 text-sm">
-                That signature teaches more than any chore chart ever could.
+                That reflection turns a reward into formation.
               </p>
             </div>
 
@@ -383,7 +380,7 @@ export default function LandingPage() {
               <div className="bg-bone rounded-xl p-3 mb-4">
                 <div className="flex justify-between text-xs mb-1.5">
                   <span className="text-ink-3">Job</span>
-                  <span className="font-medium text-ink">Clean Your Room</span>
+                  <span className="font-medium text-ink">Do 3 Favors for Siblings</span>
                 </div>
                 <div className="flex justify-between text-xs mb-1.5">
                   <span className="text-ink-3">Proof</span>
@@ -397,7 +394,7 @@ export default function LandingPage() {
 
               <div className="bg-blue-tint border border-blue-soft rounded-xl p-3 text-xs text-blue-deep font-medium flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
-                Signed: "I completed this work honestly and carefully."
+                Signed: "I did this honestly, carefully, and with a good attitude."
               </div>
             </div>
           </div>
@@ -409,11 +406,10 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-ink mb-3">
-              Everything your family needs
+              Everything your family needs to form go-getters
             </h2>
             <p className="text-ink-3 max-w-xl mx-auto">
-              Built for parents who want to raise kids that work hard, think
-              entrepreneurially, and take pride in their contribution.
+              Built for parents who want children who are successful, goal-oriented, detailed, generous, entrepreneurial, and peaceful to live with.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -443,12 +439,10 @@ export default function LandingPage() {
             Trusted Adults
           </div>
           <h2 className="text-3xl font-bold text-ink mb-4">
-            Grandma can post a job too.
+            Let trusted adults reinforce the same family culture.
           </h2>
           <p className="text-ink-3 max-w-2xl mx-auto leading-relaxed mb-10">
-            Invite up to four trusted adults — grandparents, aunts, uncles, mentors —
-            to post jobs and encourage the kids. Parent approval required before kids
-            see anything. Privacy always protected.
+            Grandparents, aunts, uncles, and mentors can encourage responsibility and generosity too. Parents approve what kids see, so outside encouragement never becomes outside control.
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             {["Grandma", "Grandpa Joe", "Aunt Maria", "Uncle Carlos"].map((name) => (
@@ -473,11 +467,10 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-3xl font-bold text-ink mb-4">
-            More than chores. Character.
+            Form the child. Lighten the home.
           </h2>
           <p className="text-ink-3 max-w-xl mx-auto mb-10">
-            Every job in HomeBiz Kids is tagged with the life skill it teaches.
-            Watch your child build a portfolio of character.
+            Every mission is tied to a virtue or life skill. The aim is not more tasks — it is a well-rounded child who notices needs, serves others, saves patiently, and follows through.
           </p>
           <div className="flex flex-wrap justify-center gap-2.5">
             {SKILLS.map((skill) => (
@@ -495,14 +488,14 @@ export default function LandingPage() {
       {/* ── Pricing preview ── */}
       <section className="py-20 bg-bone">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl font-bold text-ink mb-3">Free your weekend for less than a coffee.</h2>
+          <h2 className="text-3xl font-bold text-ink mb-3">Build a calmer family economy for less than a coffee.</h2>
           <p className="text-ink-3 mb-10">
-            Free forever for one child. Upgrade when your family is ready.
+            Start with one child, then expand the system as your family culture grows.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { name: "Free", price: "$0", subtitle: "forever", highlight: false, features: ["1 child", "3 jobs / month", "Reward store", "Savings goals", "30-day history"] },
-              { name: "Family", price: "$8.99", subtitle: "/month or $89/year", highlight: true, features: ["Unlimited children + jobs", "Before / after photos", "Child pitches & counteroffers", "Trusted adults", "Weekly reports", "Homeschool portfolio"] },
+              { name: "Free", price: "$0", subtitle: "forever", highlight: false, features: ["1 child", "3 missions / month", "Reward store", "Savings goals", "30-day history"] },
+              { name: "Family", price: "$8.99", subtitle: "/month or $89/year", highlight: true, features: ["Unlimited children + missions", "Before / after photos", "Child pitches & counteroffers", "Trusted adults", "Weekly reports", "Homeschool portfolio"] },
             ].map((plan) => (
               <div
                 key={plan.name}
@@ -542,11 +535,10 @@ export default function LandingPage() {
       <section className="py-24 bg-blue-deep text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-4xl font-extrabold mb-4 tracking-tight">
-            Stop reminding. Start running a marketplace.
+            A family marketplace that rewires the brain!
           </h2>
           <p className="text-white/70 text-lg mb-10 leading-relaxed">
-            Less nagging. Less arguing. More work getting done — by them, on their initiative,
-            because they want the tokens. They learn responsibility. You get your evenings back.
+            Help your children practice initiative, service, courage, detailed follow-through, and delayed gratification — while household help becomes more peaceful and less dependent on nagging.
           </p>
           <Button asChild size="xl" variant="yellow">
             <Link href="/dashboard">

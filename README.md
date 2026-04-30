@@ -1,8 +1,8 @@
 # HomeBiz Kids
 
-> Your kids do the work. You get your weekends back.
+> A family marketplace that rewires the brain!
 
-HomeBiz Kids turns everyday family work into a real economy. Kids spot jobs, pitch a price, do the work, and send their parent an invoice. They learn responsibility and entrepreneurship — parents get a cleaner house and time to think.
+HomeBiz Kids helps parents form capable, goal-oriented, generous children while bringing more peace to the home. Parents create missions around household help, sibling service, social courage, detailed follow-through, and delayed gratification; kids can also pitch work they notice and learn to create value instead of only trading time for money.
 
 Built with Next.js 16, TypeScript, Tailwind 4, and a fully designed Prisma schema. Currently runs on demo data — connect a real Postgres database when ready.
 
@@ -33,26 +33,26 @@ A floating **Demo User Switcher** (bottom-right of every page) lets you toggle b
 ## What's Inside
 
 ### Three role-based experiences
-- **Parent dashboard** (`/dashboard`) — overview, jobs, pitch reviews, invoice approvals, family management, reward store, weekly reports, badges, homeschool portfolio export, family economy settings
-- **Child app** (`/child`) — home, job board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
-- **Trusted adult portal** (`/trusted`) — propose jobs (parent-approval gated)
+- **Parent dashboard** (`/dashboard`) — overview, formation missions, pitch reviews, invoice/reflection approvals, family management, reward store, weekly reports, badges, homeschool portfolio export, family economy settings
+- **Child app** (`/child`) — home, mission board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
+- **Trusted adult portal** (`/trusted`) — propose encouragement/mission opportunities (parent-approval gated)
 
 ### Signature features
 1. **6-step Job Pitch flow** (`/child/propose`) — Problem → Why it matters → Solution → Details → Reward → Proof
-2. **Counteroffer system** — parents negotiate scope and reward
-3. **Quality checklists** — define what "done" means
-4. **Bonus selector** + **praise bank** — reward excellence
-5. **Skill badges** — Initiative, Follow-Through, Diligence, Negotiator, etc.
-6. **Savings goals** — delayed gratification with progress bar
+2. **Counteroffer system** — parents coach scope, standards, and reward
+3. **Quality checklists** — define what “done with care” means before work starts
+4. **Bonus selector** + **praise bank** — reward specific action, not personality
+5. **Skill badges** — Initiative, Follow-Through, Diligence, Stewardship, Courage, Service, Negotiator, etc.
+6. **Savings goals** — delayed gratification with visible progress
 7. **Family economy settings** — tokens / privileges / physical chips, custom token name, feature toggles
 8. **Age-based job suggestions** (5–7 / 8–10 / 11–14 / 15+) — auto-fill the create-job form
 9. **Weekly family report** — per-child summaries, top skill, suggested jobs next week
 10. **Homeschool portfolio export** — exportable preview of skills, badges, reflections, parent notes
 11. **Revision flow** — `REVISION_REQUESTED` invoice status, child-side resubmit
-12. **Before/after photo proof** — placeholder uploader + side-by-side comparison
+12. **Before/after photo proof** — proof, standards, reflection, and side-by-side comparison
 
 ### Token-only currency model
-HomeBiz Kids does **not** handle real money. Tokens are virtual. Parents define what tokens are worth in their family — privileges, treats, or informal cash conversion that happens entirely outside the app. This keeps everything child-safe, COPPA-friendly, and free of payment-processing complexity.
+HomeBiz Kids does **not** handle real money. Tokens are virtual. Parents define what tokens unlock in their family — privileges, treats, experiences, savings goals, or rewards handled entirely outside the app. This keeps the product child-safe, parent-controlled, and free of in-app payment-processing complexity.
 
 ### Public marketing site
 - Landing (`/`) · Pricing (`/pricing`) · About (`/about`) · Privacy (`/privacy`) · Terms (`/terms`)
@@ -65,12 +65,12 @@ HomeBiz Kids does **not** handle real money. Tokens are virtual. Parents define 
 |---|---|---|
 | **Price** | $0 forever | $8.99/mo or $89/year |
 | Children | 1 | Unlimited |
-| Active jobs | 3 / month | Unlimited |
+| Active missions | 3 / month | Unlimited |
 | Work history | 30 days | Forever |
 | Reward store | ✓ | ✓ |
 | Savings goals | ✓ | ✓ |
 | Before/after photos | — | ✓ |
-| Child-created pitches | — | ✓ |
+| Child-created value pitches | — | ✓ |
 | Quality checklists & bonuses | — | ✓ |
 | Trusted adults (up to 4) | — | ✓ |
 | Weekly reports | — | ✓ |

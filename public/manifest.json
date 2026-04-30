@@ -1,7 +1,7 @@
 {
-  "name": "HomeBiz Kids — Your child's first tiny business",
+  "name": "HomeBiz Kids — A family marketplace that rewires the brain",
   "short_name": "HomeBiz Kids",
-  "description": "Kids notice work, pitch it for a token price, do the job, and earn toward real savings goals. Parents review pitches and approve, counter, or decline.",
+  "description": "Form capable, goal-oriented kids through family missions, sibling service, delayed gratification, and a parent-controlled token economy.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -53,21 +53,21 @@
     {
       "name": "Make a pitch",
       "short_name": "Pitch",
-      "description": "Propose a job to your parent",
+      "description": "Propose a way to create value for your family",
       "url": "/child/propose",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Pitch Inbox",
       "short_name": "Inbox",
-      "description": "Review pitches from your kids",
+      "description": "Review value pitches and formation missions",
       "url": "/dashboard/proposals",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "My Wallet",
       "short_name": "Wallet",
-      "description": "See your earnings and savings goal",
+      "description": "See tokens, progress, and savings goals",
       "url": "/child/wallet",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }

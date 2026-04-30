@@ -23,9 +23,9 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "HomeBiz Kids — Your child's first tiny business",
+  title: "HomeBiz Kids — A family marketplace that rewires the brain",
   description:
-    "Kids notice work, pitch it for a token price, do the job, and earn toward real savings goals. Parents review pitches and approve, counter, or decline.",
+    "Form capable, goal-oriented kids through family missions, sibling service, delayed gratification, and a parent-controlled token economy.",
   applicationName: "HomeBiz Kids",
   manifest: "/manifest.json",
   appleWebApp: {
@@ -51,14 +51,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "HomeBiz Kids",
-    description: "Your child's first tiny business.",
+    description: "A family marketplace that rewires the brain.",
     type: "website",
     siteName: "HomeBiz Kids",
   },
   twitter: {
     card: "summary",
     title: "HomeBiz Kids",
-    description: "Your child's first tiny business.",
+    description: "A family marketplace that rewires the brain.",
   },
 };
 
