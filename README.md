@@ -34,7 +34,7 @@ A floating **Demo User Switcher** (bottom-right of every page) lets you toggle b
 
 ### Three role-based experiences
 - **Parent dashboard** (`/dashboard`) — overview, formation missions, pitch reviews, invoice/reflection approvals, family management, reward store, weekly reports, badges, homeschool portfolio export, family economy settings
-- **Child app** (`/child`) — visually distinct playful “tiny business HQ,” selectable illustrated kid avatars, mission board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
+- **Child app** (`/child`) — visually distinct playful problem-solving station where kids make a difference, selectable illustrated kid avatars, mission board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
 - **Trusted adult portal** (`/trusted`) — propose encouragement/mission opportunities (parent-approval gated)
 
 ### Signature features

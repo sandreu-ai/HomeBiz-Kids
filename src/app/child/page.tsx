@@ -40,28 +40,28 @@ export default function ChildHomePage() {
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-yellow-tint px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-yellow-ink">
               <Star className="h-3.5 w-3.5 fill-yellow text-yellow-deep" />
-              My tiny business HQ
+              Problem-solving station
             </div>
             <div>
               <p className="text-sm font-bold text-ink-3">Welcome back, {firstName}.</p>
               <h1 className="mt-1 text-4xl font-black leading-[0.95] text-ink sm:text-5xl">
-                <span className="sr-only">Where kids run a tiny business</span>
-                <span aria-hidden="true">Where kids run a <span className="script text-red-deep underline decoration-yellow decoration-8 underline-offset-[-2px]">tiny business</span>.</span>
+                <span className="sr-only">Where kids make a difference</span>
+                <span aria-hidden="true">Where kids make a <span className="script text-red-deep underline decoration-yellow decoration-8 underline-offset-[-2px]">difference</span>.</span>
               </h1>
             </div>
             <p className="max-w-xl text-sm leading-6 text-ink-3 sm:text-base">
-              Notice a problem, make a pitch, do careful work, snap proof, and send a simple invoice to your parent.
+              Solve a problem today: notice what someone needs, make a helpful plan, do careful work, snap proof, and show the difference you made.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="gold" className="border-2 border-ink shadow-cta-yellow">
                 <Link href="/child/propose">
-                  Make a Pitch
+                  Solve a Problem
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-2 border-ink bg-white">
                 <Link href="/child/jobs">
-                  Find a Job
+                  Find a Way to Help
                   <Sparkles className="h-4 w-4" />
                 </Link>
               </Button>

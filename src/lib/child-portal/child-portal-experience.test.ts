@@ -11,8 +11,11 @@ describe("child portal experience direction", () => {
     const childHome = read("src/app/child/page.tsx");
 
     expect(childNav).toContain("kid-portal-shell");
-    expect(childNav).toContain("My tiny business HQ");
-    expect(childHome).toContain("Where kids run a tiny business");
+    expect(childNav).toContain("Problem-solving station");
+    expect(childHome).toContain("Where kids make a difference");
+    expect(childHome).toContain("Solve a problem today");
+    expect(childHome).not.toContain("Where kids run a tiny business");
+    expect(childHome).not.toContain("My tiny business HQ");
     expect(childHome).toContain("Playful avatar");
     expect(childHome).toContain("sticker-style");
   });

@@ -49,7 +49,7 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
           {session.childProfile && (
             <div className="relative overflow-hidden rounded-3xl border-3 border-ink bg-yellow-tint p-3 shadow-card">
               <p className="mb-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-deep">
-                My tiny business HQ
+                Problem-solving station
               </p>
               <div className="flex items-center gap-3">
                 <div className="rounded-2xl bg-white/70 p-1">
@@ -91,7 +91,7 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-line">
-          <p className="text-xs font-black text-ink-3 text-center">Tiny businesses do real work. 💚</p>
+          <p className="text-xs font-black text-ink-3 text-center">Notice a need. Help someone today. 💚</p>
         </div>
       </aside>
 
