@@ -48,10 +48,9 @@ export const AVATAR_BUILDER_PARTS = {
   ],
   shirtColors: [
     { id: "blue", label: "Blue", value: "#4285F4", accent: "#D2E3FC" },
-    { id: "green", label: "Green", value: "#34A853", accent: "#CEEAD6" },
+    { id: "red", label: "Red", value: "#EA4335", accent: "#FAD2CF" },
     { id: "yellow", label: "Yellow", value: "#FBBC04", accent: "#FEEFC3" },
-    { id: "coral", label: "Coral", value: "#EA6F63", accent: "#FAD2CF" },
-    { id: "lavender", label: "Lavender", value: "#8B6FE8", accent: "#EADDFF" },
+    { id: "green", label: "Green", value: "#34A853", accent: "#CEEAD6" },
   ],
   accessories: [
     { id: "none" as KidAvatarAccessory, label: "No extra" },

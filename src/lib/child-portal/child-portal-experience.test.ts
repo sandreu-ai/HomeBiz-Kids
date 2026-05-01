@@ -43,6 +43,12 @@ describe("child portal experience direction", () => {
     expect(avatarLibrary).toContain("hairStyles");
     expect(avatarLibrary).toContain("hairColors");
     expect(avatarLibrary).toContain("shirtColors");
+    expect(avatarLibrary).toContain("#4285F4");
+    expect(avatarLibrary).toContain("#EA4335");
+    expect(avatarLibrary).toContain("#FBBC04");
+    expect(avatarLibrary).toContain("#34A853");
+    expect(avatarLibrary).not.toContain("Lavender");
+    expect(avatarLibrary).not.toContain("Coral");
     expect(avatarLibrary).toContain("accessories");
     expect(avatarLibrary).toContain("buildKidAvatarOption");
     expect(avatarPicker).toContain("Build your avatar");
