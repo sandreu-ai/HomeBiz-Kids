@@ -86,7 +86,10 @@ export default function ChildHomePage() {
         </div>
       </section>
 
-      <AvatarPicker selectedId={selectedAvatar.id} />
+      <div className="space-y-2">
+        <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-deep">Build your avatar</p>
+        <AvatarPicker selectedId={selectedAvatar.id} />
+      </div>
 
       <WalletSummary profile={profile} />
 

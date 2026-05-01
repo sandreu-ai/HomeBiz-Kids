@@ -33,6 +33,30 @@ describe("child portal experience direction", () => {
     expect(avatarPicker).toContain("LittleIllustratedKid");
   });
 
+  it("lets children build a custom avatar from constrained polished parts", () => {
+    const avatarLibrary = read("src/lib/child-portal/avatar-options.ts");
+    const avatarPicker = read("src/components/child/AvatarPicker.tsx");
+    const childHome = read("src/app/child/page.tsx");
+
+    expect(avatarLibrary).toContain("AVATAR_BUILDER_PARTS");
+    expect(avatarLibrary).toContain("skinTones");
+    expect(avatarLibrary).toContain("hairStyles");
+    expect(avatarLibrary).toContain("hairColors");
+    expect(avatarLibrary).toContain("shirtColors");
+    expect(avatarLibrary).toContain("accessories");
+    expect(avatarLibrary).toContain("buildKidAvatarOption");
+    expect(avatarPicker).toContain("Build your avatar");
+    expect(avatarPicker).toContain("Choose skin tone");
+    expect(avatarPicker).toContain("Choose hair style");
+    expect(avatarPicker).toContain("Choose shirt color");
+    expect(avatarPicker).toContain("Choose accessory");
+    expect(avatarPicker).toContain("Use this character");
+    expect(avatarPicker).toContain("✓");
+    expect(avatarPicker).not.toContain("{avatar.gender}");
+    expect(avatarPicker).toContain("useState");
+    expect(childHome).toContain("Build your avatar");
+  });
+
   it("keeps the child invoice builder simple and camera-first with before photos carried into invoices", () => {
     const invoicePage = read("src/app/child/invoices/new/page.tsx");
     const photoCard = read("src/components/proof/PhotoUploadCard.tsx");

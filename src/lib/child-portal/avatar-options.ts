@@ -1,4 +1,6 @@
 export type KidAvatarGender = "boy" | "girl";
+export type KidHairStyle = "wave" | "curls" | "cap" | "braids" | "puffs" | "bob" | "short" | "side-sweep" | "hijab";
+export type KidAvatarAccessory = "none" | "glasses" | "headband" | "star-pin";
 
 export interface KidAvatarOption {
   id: string;
@@ -9,6 +11,86 @@ export interface KidAvatarOption {
   shirt: string;
   accent: string;
   expression: string;
+  hairStyle?: KidHairStyle;
+  accessory?: KidAvatarAccessory;
+}
+
+export type AvatarBuilderSelection = {
+  skinToneId: string;
+  hairStyleId: KidHairStyle;
+  hairColorId: string;
+  shirtColorId: string;
+  accessoryId: KidAvatarAccessory;
+};
+
+export const AVATAR_BUILDER_PARTS = {
+  skinTones: [
+    { id: "peach", label: "Peach", value: "#F2B996" },
+    { id: "tan", label: "Tan", value: "#D9A066" },
+    { id: "brown", label: "Brown", value: "#8D5524" },
+    { id: "deep", label: "Deep", value: "#6D3F24" },
+  ],
+  hairStyles: [
+    { id: "wave" as KidHairStyle, label: "Wave" },
+    { id: "curls" as KidHairStyle, label: "Curls" },
+    { id: "braids" as KidHairStyle, label: "Braids" },
+    { id: "puffs" as KidHairStyle, label: "Puffs" },
+    { id: "bob" as KidHairStyle, label: "Bob" },
+    { id: "side-sweep" as KidHairStyle, label: "Side sweep" },
+    { id: "hijab" as KidHairStyle, label: "Hijab" },
+  ],
+  hairColors: [
+    { id: "black", label: "Black", value: "#171717" },
+    { id: "brown", label: "Brown", value: "#4A2B16" },
+    { id: "auburn", label: "Auburn", value: "#8D3A35" },
+    { id: "blond", label: "Blond", value: "#D7A34A" },
+    { id: "purple", label: "Purple", value: "#A53B6B" },
+  ],
+  shirtColors: [
+    { id: "blue", label: "Blue", value: "#4285F4", accent: "#D2E3FC" },
+    { id: "green", label: "Green", value: "#34A853", accent: "#CEEAD6" },
+    { id: "yellow", label: "Yellow", value: "#FBBC04", accent: "#FEEFC3" },
+    { id: "coral", label: "Coral", value: "#EA6F63", accent: "#FAD2CF" },
+    { id: "lavender", label: "Lavender", value: "#8B6FE8", accent: "#EADDFF" },
+  ],
+  accessories: [
+    { id: "none" as KidAvatarAccessory, label: "No extra" },
+    { id: "glasses" as KidAvatarAccessory, label: "Glasses" },
+    { id: "headband" as KidAvatarAccessory, label: "Headband" },
+    { id: "star-pin" as KidAvatarAccessory, label: "Star pin" },
+  ],
+} as const;
+
+export const DEFAULT_AVATAR_BUILDER_SELECTION: AvatarBuilderSelection = {
+  skinToneId: "peach",
+  hairStyleId: "wave",
+  hairColorId: "black",
+  shirtColorId: "blue",
+  accessoryId: "none",
+};
+
+const findPart = <T extends { id: string }>(parts: readonly T[], id: string, fallback: T) =>
+  parts.find((part) => part.id === id) ?? fallback;
+
+export function buildKidAvatarOption(selection: AvatarBuilderSelection): KidAvatarOption {
+  const skin = findPart(AVATAR_BUILDER_PARTS.skinTones, selection.skinToneId, AVATAR_BUILDER_PARTS.skinTones[0]);
+  const hairColor = findPart(AVATAR_BUILDER_PARTS.hairColors, selection.hairColorId, AVATAR_BUILDER_PARTS.hairColors[0]);
+  const shirt = findPart(AVATAR_BUILDER_PARTS.shirtColors, selection.shirtColorId, AVATAR_BUILDER_PARTS.shirtColors[0]);
+  const hairStyle = findPart(AVATAR_BUILDER_PARTS.hairStyles, selection.hairStyleId, AVATAR_BUILDER_PARTS.hairStyles[0]);
+  const accessory = findPart(AVATAR_BUILDER_PARTS.accessories, selection.accessoryId, AVATAR_BUILDER_PARTS.accessories[0]);
+
+  return {
+    id: `custom-${skin.id}-${hairStyle.id}-${hairColor.id}-${shirt.id}-${accessory.id}`,
+    name: "My custom helper",
+    gender: hairStyle.id === "braids" || hairStyle.id === "puffs" || hairStyle.id === "bob" || hairStyle.id === "hijab" ? "girl" : "boy",
+    hair: hairColor.value,
+    skin: skin.value,
+    shirt: shirt.value,
+    accent: shirt.accent,
+    expression: "proud",
+    hairStyle: hairStyle.id,
+    accessory: accessory.id,
+  };
 }
 
 export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
@@ -21,6 +103,8 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#4285F4",
     accent: "#FBBC04",
     expression: "confident",
+    hairStyle: "wave",
+    accessory: "star-pin",
   },
   {
     id: "avatar-boy-green-curls",
@@ -31,6 +115,7 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#34A853",
     accent: "#D2E3FC",
     expression: "bright",
+    hairStyle: "curls",
   },
   {
     id: "avatar-boy-red-cap",
@@ -41,6 +126,7 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#EA4335",
     accent: "#FEEFC3",
     expression: "ready",
+    hairStyle: "cap",
   },
   {
     id: "avatar-girl-yellow-braids",
@@ -51,6 +137,7 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#FBBC04",
     accent: "#EADDFF",
     expression: "proud",
+    hairStyle: "braids",
   },
   {
     id: "avatar-girl-blue-puffs",
@@ -61,6 +148,7 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#1A73E8",
     accent: "#CEEAD6",
     expression: "curious",
+    hairStyle: "puffs",
   },
   {
     id: "avatar-girl-green-bob",
@@ -71,6 +159,8 @@ export const KID_AVATAR_OPTIONS: KidAvatarOption[] = [
     shirt: "#34A853",
     accent: "#FAD2CF",
     expression: "cheerful",
+    hairStyle: "bob",
+    accessory: "headband",
   },
 ];
 
