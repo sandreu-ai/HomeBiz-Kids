@@ -4,7 +4,7 @@
 
 HomeBiz Kids helps parents form capable, goal-oriented, generous children while bringing more peace to the home. Parents create missions around household help, sibling service, social courage, detailed follow-through, and delayed gratification; kids can also pitch work they notice and learn to create value instead of only trading time for money.
 
-Built with Next.js 16, TypeScript, Tailwind 4, Clerk auth scaffolding, and a fully designed Prisma schema. Currently runs on demo data — add Clerk keys and connect a real Postgres database when ready.
+Built with Next.js 16, TypeScript, Tailwind 4, Clerk auth scaffolding, and a fully designed Prisma schema. Currently runs on demo data, with production-readiness checks, Prisma/Postgres adapter scaffolding, and parent onboarding prepared for when Clerk keys and a real database are added.
 
 [![Built with Next.js](https://img.shields.io/badge/Built_with-Next.js_16-blue)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org)
@@ -89,7 +89,7 @@ Plan limits live in [`src/lib/plan.ts`](src/lib/plan.ts).
 - **Icons**: lucide-react
 - **Animations**: framer-motion
 - **Fonts**: DM Sans, Caveat, DM Mono via `next/font`
-- **Database (defined, not wired)**: Prisma + PostgreSQL — full schema in [`prisma/schema.prisma`](prisma/schema.prisma)
+- **Database (scaffolded, not activated)**: Prisma 7 + PostgreSQL using `@prisma/adapter-pg`; full schema in [`prisma/schema.prisma`](prisma/schema.prisma), server-only client helper in `src/lib/db.ts`, and parent/family session scaffold in `src/lib/family/parent-family-session.ts`
 - **Auth (scaffolded)**: Clerk via `@clerk/nextjs`; `src/proxy.ts` protects app sections once Clerk keys are configured, while local/no-key mode falls back to demo sessions
 - **Session/demo state**: `DemoSessionProvider` powers the current demo data until persisted family records replace it
 - **PWA**: installable on iOS, Android, and desktop via `manifest.json`
@@ -107,7 +107,7 @@ homebiz-kids/
 │   └── icons/                    # PWA icon sizes
 ├── scripts/gen-icons.mjs         # PWA icon generator (run once)
 └── src/
-    ├── app/                      # All routes (Next.js App Router), including /sign-in and /sign-up
+    ├── app/                      # All routes (Next.js App Router), including /sign-in, /sign-up, and /onboarding
     ├── proxy.ts                  # Clerk route protection; pass-through until Clerk keys exist
     ├── components/
     │   ├── ui/                   # shadcn-style primitives
@@ -197,8 +197,8 @@ Then go to [vercel.com/new](https://vercel.com/new), import the repo, and click 
 
 ## Roadmap to Production
 
-- **Auth** — Clerk is scaffolded (`@clerk/nextjs`, `/sign-in`, `/sign-up`, guarded `src/proxy.ts`); next step is adding real Clerk env vars in Vercel/local and mapping Clerk user IDs to parent/family records
-- **Database** — connect Neon, Supabase, or any Postgres host
+- **Auth + onboarding** — Clerk is scaffolded (`@clerk/nextjs`, `/sign-in`, `/sign-up`, guarded `src/proxy.ts`); `/onboarding` now guides the parent from service readiness to the first child profile while preserving no-key demo mode
+- **Database** — connect Neon, Supabase, or any Postgres host, then run `npx prisma generate` and `npx prisma db push`; `User.clerkUserId` and the server-only parent/family scaffold are ready for Clerk mapping
 - **Photo uploads** — wire `PhotoUploadCard` to UploadThing or Supabase Storage
 - **Stripe** — connect Pricing page CTAs to Stripe Checkout for the Family plan
 - **PDF export** — implement homeschool portfolio export with `@react-pdf/renderer`

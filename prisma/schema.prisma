@@ -87,6 +87,7 @@ enum CurrencyType {
 
 model User {
   id            String              @id @default(cuid())
+  clerkUserId   String?             @unique
   name          String
   email         String?             @unique
   role          Role

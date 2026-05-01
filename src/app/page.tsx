@@ -143,10 +143,13 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="xl">
-              <Link href="/dashboard">
+              <Link href="/sign-up">
                 Start free with one child
                 <ArrowRight className="w-5 h-5" />
               </Link>
+            </Button>
+            <Button asChild size="xl" variant="outline">
+              <Link href="/dashboard">View demo dashboard</Link>
             </Button>
             <Button asChild size="xl" variant="outline">
               <Link href="/pricing">See pricing</Link>
@@ -548,7 +551,7 @@ export default function LandingPage() {
             Help your children practice initiative, service, courage, detailed follow-through, and delayed gratification — while household help becomes more peaceful and less dependent on nagging.
           </p>
           <Button asChild size="xl" variant="yellow">
-            <Link href="/dashboard">
+            <Link href="/sign-up">
               Start free with one child
               <ArrowRight className="w-5 h-5" />
             </Link>

@@ -12,7 +12,8 @@ Live site: https://homebizkids.com → https://www.homebizkids.com/
 - App currently runs on demo data from `src/lib/demo-data/`.
 - Clerk is installed/scaffolded with `/sign-in`, `/sign-up`, and `src/proxy.ts`; real protection activates only when Clerk env vars are present.
 - Session/demo state is still simulated through `src/providers/DemoSessionProvider.tsx` until Clerk users are mapped to persisted family records.
-- Prisma schema exists in `prisma/schema.prisma`, but database is not wired.
+- Prisma schema exists in `prisma/schema.prisma`; server-only Prisma/Postgres adapter scaffold now exists in `src/lib/db.ts`, but a real `DATABASE_URL` is still needed before persistence is active.
+- `/onboarding` exists as the first parent-owned real account setup route; it reports missing Clerk/DB services and keeps child profiles under the parent account model.
 - There was no `.env.example` even though the README instructs `cp .env.example .env.local`; this has now been added.
 
 ## Non-negotiable product rules
@@ -64,14 +65,16 @@ Recommended sequence:
    - Trusted adults can be invited later; do not let them see unrelated family data.
    - Still needed: real Clerk env vars and mapping Clerk user IDs to family/user records.
 
-3. Add Neon/Postgres.
+3. Add Neon/Postgres. ⏳
    - Set `DATABASE_URL`.
    - Run `npx prisma generate` and `npx prisma db push` after schema review.
    - Create `prisma/seed.ts` that mirrors demo data for development/demo accounts.
 
-4. Add a Prisma client helper.
-   - Example target: `src/lib/prisma.ts`.
-   - Keep it server-only.
+4. Prisma client + parent/family scaffold. ✅
+   - `src/lib/db.ts` exports a server-only lazy Prisma client helper using `@prisma/adapter-pg`, so no-key/no-DB builds do not instantiate Prisma during prerender.
+   - `src/lib/family/parent-family-session.ts` maps Clerk parent IDs to internal `User`/`Family` records and keeps child profiles created separately under the parent account.
+   - `User.clerkUserId` is present in `prisma/schema.prisma` for Clerk-to-family mapping.
+   - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, and CTA scaffolds.
 
 5. Replace demo reads incrementally.
    - Start with family/session resolution.
@@ -115,6 +118,10 @@ Recommended sequence:
 - `src/lib/auth/clerk-setup.test.ts` codifies Clerk integration expectations: dependency installed, provider wraps the app when configured, `/sign-in` and `/sign-up` exist, `src/proxy.ts` protects app sections, and `.env.example` uses placeholders only.
 - `src/providers/index.tsx` intentionally runs without `ClerkProvider` when `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is absent so local demo mode and Vercel preview builds do not crash before Clerk env vars are installed.
 - `src/proxy.ts` uses the Next.js 16 proxy convention instead of deprecated `middleware.ts`; it passes through while Clerk keys are absent and protects `/dashboard`, `/child`, and `/trusted` once both Clerk keys exist.
+- `src/lib/production/production-readiness.test.ts` codifies the current production-readiness scaffold: centralized Clerk/DB service checks, server-only Prisma helper, parent-family mapping, `/onboarding`, and public CTA routing to real auth.
+- `src/lib/db.ts` intentionally creates Prisma lazily and uses `@prisma/adapter-pg` because Prisma 7 requires a driver adapter; do not instantiate Prisma at module scope or no-DB builds will fail while collecting page data.
+- `src/app/onboarding/page.tsx` is the current bridge route from demo to real family setup: it shows missing service keys, sends signed-out parents to `/sign-up`, and keeps children as parent-owned profiles.
+- Public marketing CTAs now point to `/sign-up` and `/sign-in`, with an explicit “View demo dashboard” link retained for previews.
 - Prisma 7 uses `prisma.config.ts` for `DATABASE_URL`; keep `datasource db` in `prisma/schema.prisma` provider-only unless the Prisma version is intentionally changed.
 - Keep demo data available for marketing and screenshots, but gate demo-switcher behavior outside production unless intentionally enabled for demos.
 

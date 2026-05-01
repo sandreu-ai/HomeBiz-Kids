@@ -141,7 +141,7 @@ export default function PricingPage() {
                   variant={plan.highlight ? "yellow" : "default"}
                   className="mb-6"
                 >
-                  <Link href="/dashboard">{plan.cta}</Link>
+                  <Link href="/sign-up">{plan.cta}</Link>
                 </Button>
 
                 <ul className="space-y-3 flex-1">

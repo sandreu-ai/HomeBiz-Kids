@@ -25,11 +25,11 @@ export function PublicNav() {
           <Link href="/about" className="text-sm font-medium text-ink-3 hover:text-ink transition-colors">
             About
           </Link>
-          <Link href="/dashboard" className="text-sm font-medium text-ink-3 hover:text-ink transition-colors">
+          <Link href="/sign-in" className="text-sm font-medium text-ink-3 hover:text-ink transition-colors">
             Sign In
           </Link>
           <Button asChild size="sm">
-            <Link href="/dashboard">Start your family marketplace</Link>
+            <Link href="/sign-up">Start your family marketplace</Link>
           </Button>
         </nav>
 
@@ -47,9 +47,9 @@ export function PublicNav() {
         <div className="md:hidden border-t border-line bg-bone px-4 py-4 space-y-3">
           <Link href="/pricing" className="block py-2 text-sm font-medium text-ink" onClick={() => setOpen(false)}>Pricing</Link>
           <Link href="/about" className="block py-2 text-sm font-medium text-ink" onClick={() => setOpen(false)}>About</Link>
-          <Link href="/dashboard" className="block py-2 text-sm font-medium text-ink" onClick={() => setOpen(false)}>Sign In</Link>
+          <Link href="/sign-in" className="block py-2 text-sm font-medium text-ink" onClick={() => setOpen(false)}>Sign In</Link>
           <Button asChild className="w-full" onClick={() => setOpen(false)}>
-            <Link href="/dashboard">Start your family marketplace</Link>
+            <Link href="/sign-up">Start your family marketplace</Link>
           </Button>
         </div>
       )}
