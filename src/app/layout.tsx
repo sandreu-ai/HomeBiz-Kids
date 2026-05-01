@@ -23,10 +23,12 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.homebizkids.com"),
   title: "HomeBiz Kids — A family marketplace that rewires the brain",
   description:
     "Form capable, goal-oriented kids through family missions, sibling service, delayed gratification, and a parent-controlled token economy.",
   applicationName: "HomeBiz Kids",
+  alternates: { canonical: "/" },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
