@@ -83,14 +83,21 @@ export default async function ChildJobDetailPage(props: { params: Promise<{ id: 
       </div>
 
       {isOpen && (
-        <div className="bg-blue-deep text-white rounded-2xl p-5 flex items-center justify-between">
-          <div>
-            <p className="font-semibold">Ready to claim this job?</p>
-            <p className="text-xs text-white/70 mt-0.5">Once you start, you commit to finishing.</p>
+        <div className="space-y-4 rounded-3xl border-4 border-ink bg-white p-5 shadow-card">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-black text-ink">Ready to claim this job?</p>
+              <p className="mt-0.5 text-xs text-ink-3">When you start, snap a before photo so your invoice can show the transformation.</p>
+            </div>
+            <Button variant="gold" size="lg" className="border-2 border-ink">
+              Accept Job
+            </Button>
           </div>
-          <Button variant="gold" size="lg">
-            Accept Job
-          </Button>
+          <PhotoUploadCard
+            phase="before"
+            label="Before photo when you start"
+            hint="Open the camera and capture what the job looks like before your work begins."
+          />
         </div>
       )}
 

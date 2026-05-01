@@ -1,0 +1,45 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+
+const repoRoot = join(__dirname, "../../..");
+const read = (path: string) => readFileSync(join(repoRoot, path), "utf8");
+
+describe("child portal experience direction", () => {
+  it("gives children a playful portal shell that is visually distinct from the parent dashboard", () => {
+    const childNav = read("src/components/layout/ChildNav.tsx");
+    const childHome = read("src/app/child/page.tsx");
+
+    expect(childNav).toContain("kid-portal-shell");
+    expect(childNav).toContain("My tiny business HQ");
+    expect(childHome).toContain("Where kids run a tiny business");
+    expect(childHome).toContain("Playful avatar");
+    expect(childHome).toContain("sticker-style");
+  });
+
+  it("ships selectable illustrated kid avatars for boys and girls", () => {
+    const avatarLibrary = read("src/lib/child-portal/avatar-options.ts");
+    const avatarPicker = read("src/components/child/AvatarPicker.tsx");
+
+    expect(avatarLibrary).toContain("KID_AVATAR_OPTIONS");
+    expect(avatarLibrary).toMatch(/gender:\s*"boy"/);
+    expect(avatarLibrary).toMatch(/gender:\s*"girl"/);
+    expect(avatarLibrary.match(/gender:\s*"boy"/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    expect(avatarLibrary.match(/gender:\s*"girl"/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    expect(avatarPicker).toContain("Choose your character");
+    expect(avatarPicker).toContain("LittleIllustratedKid");
+  });
+
+  it("keeps the child invoice builder simple and camera-first with before photos carried into invoices", () => {
+    const invoicePage = read("src/app/child/invoices/new/page.tsx");
+    const photoCard = read("src/components/proof/PhotoUploadCard.tsx");
+
+    expect(invoicePage).toContain("Simple kid invoice");
+    expect(invoicePage).toContain("Before photo from when you started");
+    expect(invoicePage).toContain("Take an after picture");
+    expect(invoicePage).toContain("What did you do?");
+    expect(invoicePage).toContain("Tokens requested");
+    expect(photoCard).toContain('capture="environment"');
+    expect(photoCard).toContain("Open camera");
+  });
+});

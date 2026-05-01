@@ -34,7 +34,7 @@ A floating **Demo User Switcher** (bottom-right of every page) lets you toggle b
 
 ### Three role-based experiences
 - **Parent dashboard** (`/dashboard`) — overview, formation missions, pitch reviews, invoice/reflection approvals, family management, reward store, weekly reports, badges, homeschool portfolio export, family economy settings
-- **Child app** (`/child`) — home, mission board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
+- **Child app** (`/child`) — visually distinct playful “tiny business HQ,” selectable illustrated kid avatars, mission board, **Make Your Pitch** flow, wallet, savings goals, badges, rewards, work history
 - **Trusted adult portal** (`/trusted`) — propose encouragement/mission opportunities (parent-approval gated)
 
 ### Signature features
@@ -49,7 +49,8 @@ A floating **Demo User Switcher** (bottom-right of every page) lets you toggle b
 9. **Weekly family report** — per-child summaries, top skill, suggested jobs next week
 10. **Homeschool portfolio export** — exportable preview of skills, badges, reflections, parent notes
 11. **Revision flow** — `REVISION_REQUESTED` invoice status, child-side resubmit
-12. **Before/after photo proof** — proof, standards, reflection, and side-by-side comparison
+12. **Before/after photo proof** — camera-first proof, standards, reflection, side-by-side comparison, and simple child invoices that carry the before photo into parent review
+13. **Illustrated kid identity** — children choose from a small set of boy/girl character avatars used across the child portal
 
 ### Token-only currency model
 HomeBiz Kids does **not** handle real money. Tokens are virtual. Parents define what tokens unlock in their family — privileges, treats, experiences, savings goals, or rewards handled entirely outside the app. This keeps the product child-safe, parent-controlled, and free of in-app payment-processing complexity.
@@ -116,6 +117,7 @@ homebiz-kids/
     │   ├── job/                  # JobCard, QualityChecklist, ChecklistEditor, JobSuggestionPanel
     │   ├── invoice/              # InvoiceCard, BonusSelector, PraiseBankSelector, InvoiceReviewActions
     │   ├── proposal/             # ProposalCard, JobPitchForm, PitchReviewCard, CounterOfferForm
+    │   ├── child/                # AvatarPicker and illustrated child portal identity components
     │   ├── proof/                # BeforeAfterComparison, PhotoUploadCard
     │   ├── wallet/               # WalletSummary
     │   ├── rewards/              # RewardCard
@@ -127,6 +129,7 @@ homebiz-kids/
     │   ├── dashboard/            # DashboardCard, ActivityFeed
     │   └── dev/                  # DemoUserSwitcher
     ├── lib/
+    │   ├── child-portal/         # Avatar options and child-portal regression tests
     │   ├── demo-data/            # All seed data
     │   ├── plan.ts               # Free/Family plan limits
     │   └── utils.ts              # cn(), formatters, status colors

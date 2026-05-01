@@ -12,9 +12,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/providers/DemoSessionProvider";
-import { getInitials } from "@/lib/utils";
 import { Logo, Wordmark } from "@/components/ui/logo";
 import { Coin } from "@/components/ui/coin";
+import { LittleIllustratedKid } from "@/components/child/AvatarPicker";
+import { getKidAvatarOption } from "@/lib/child-portal/avatar-options";
 
 const NAV_ITEMS = [
   { href: "/child", label: "Home", icon: Home, exact: true },
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
 export function ChildNav({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { session } = useSession();
+  const selectedAvatar = getKidAvatarOption(session.childProfile?.id === "child-mateo" ? "avatar-boy-green-curls" : "avatar-boy-blue-wave");
 
   function isActive(href: string, exact?: boolean) {
     if (exact) return pathname === href;
@@ -35,9 +37,9 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-bone">
+    <div className="kid-portal-shell flex min-h-screen overflow-hidden bg-yellow-tint/40 bg-[radial-gradient(circle_at_20%_10%,rgba(251,188,4,.25),transparent_22rem),radial-gradient(circle_at_90%_20%,rgba(66,133,244,.18),transparent_20rem),radial-gradient(circle_at_60%_95%,rgba(52,168,83,.14),transparent_22rem)]">
       {/* Desktop left sidebar */}
-      <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-line min-h-screen">
+      <aside className="hidden lg:flex min-h-screen w-64 flex-col border-r-4 border-ink bg-white/90 shadow-pop">
         {/* Logo + child info */}
         <div className="p-6 border-b border-line">
           <Link href="/" className="flex items-center gap-2.5 mb-4">
@@ -45,19 +47,24 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
             <Wordmark className="text-base" />
           </Link>
           {session.childProfile && (
-            <div className="flex items-center gap-3 bg-bone rounded-xl p-3">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-                style={{ backgroundColor: session.user.avatarColor ?? "#6E9BCB" }}
-              >
-                {getInitials(session.user.name)}
+            <div className="relative overflow-hidden rounded-3xl border-3 border-ink bg-yellow-tint p-3 shadow-card">
+              <p className="mb-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-deep">
+                My tiny business HQ
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="rounded-2xl bg-white/70 p-1">
+                  <LittleIllustratedKid avatar={selectedAvatar} size="sm" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-black text-ink truncate">{session.user.name}</p>
+                  <p className="text-xs text-yellow-ink font-black">
+                    {session.childProfile.tokenBalance} tokens
+                  </p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="text-sm font-bold text-ink truncate">{session.user.name}</p>
-                <p className="text-xs text-yellow-deep font-medium">
-                  {session.childProfile.tokenBalance} tokens
-                </p>
-              </div>
+              <span className="sticker-style absolute right-2 top-2 rotate-6 rounded-full border-2 border-ink bg-green px-2 py-0.5 text-[10px] font-black text-white">
+                + ideas
+              </span>
             </div>
           )}
         </div>
@@ -72,8 +79,8 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
                   active
-                    ? "bg-blue-deep text-white shadow-sm"
-                    : "text-ink-3 hover:bg-bone hover:text-ink"
+                    ? "border-2 border-ink bg-blue-deep text-white shadow-cta"
+                    : "border-2 border-transparent text-ink-3 hover:border-ink hover:bg-yellow-tint hover:text-ink"
                 )}
               >
                 <item.icon className="w-4 h-4 shrink-0" />
@@ -84,14 +91,14 @@ export function ChildNav({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-line">
-          <p className="text-xs text-ink-3 text-center">Your work matters. 💚</p>
+          <p className="text-xs font-black text-ink-3 text-center">Tiny businesses do real work. 💚</p>
         </div>
       </aside>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile top bar */}
-        <header className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-line">
+        <header className="lg:hidden flex items-center justify-between border-b-4 border-ink bg-white/90 px-4 py-3 shadow-soft">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={26} />
             <Wordmark className="text-sm" />

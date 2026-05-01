@@ -105,7 +105,7 @@ export function PhotoUploadCard({
             </div>
             <div className="text-center">
               <p className="text-sm font-semibold text-ink">
-                {dragging ? "Drop it here" : "Upload or drag photo"}
+                {dragging ? "Drop it here" : "Open camera or choose photo"}
               </p>
               <p className="text-xs text-ink-3 mt-1 max-w-[200px]">
                 {hint ?? defaultHint}
@@ -113,7 +113,7 @@ export function PhotoUploadCard({
             </div>
             <Button variant="outline" size="sm" type="button" className="pointer-events-none">
               <Upload className="w-3.5 h-3.5" />
-              Choose photo
+              Open camera
             </Button>
           </>
         )}
