@@ -27,8 +27,12 @@ describe("child portal experience direction", () => {
     expect(avatarLibrary).toContain("KID_AVATAR_OPTIONS");
     expect(avatarLibrary).toMatch(/gender:\s*"boy"/);
     expect(avatarLibrary).toMatch(/gender:\s*"girl"/);
-    expect(avatarLibrary.match(/gender:\s*"boy"/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
-    expect(avatarLibrary.match(/gender:\s*"girl"/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    expect(avatarLibrary.match(/gender:\s*"boy"/g)?.length ?? 0).toBeGreaterThanOrEqual(6);
+    expect(avatarLibrary.match(/gender:\s*"girl"/g)?.length ?? 0).toBeGreaterThanOrEqual(6);
+    expect(avatarLibrary.match(/id:\s*"avatar-/g)?.length ?? 0).toBeGreaterThanOrEqual(12);
+    expect(avatarLibrary).toContain("hijab");
+    expect(avatarLibrary).toContain("glasses");
+    expect(avatarLibrary).toContain("side-sweep");
     expect(avatarPicker).toContain("Choose your character");
     expect(avatarPicker).toContain("LittleIllustratedKid");
   });
