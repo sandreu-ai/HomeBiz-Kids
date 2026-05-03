@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Database, KeyRound, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { completeFirstFamilyOnboarding } from "@/app/onboarding/actions";
 import { getParentFamilySessionStatus } from "@/lib/family/parent-family-session";
 
 function SetupCard({
@@ -87,12 +90,56 @@ export default async function OnboardingPage() {
         {status.status === "ready" && (
           <SetupCard icon={Users} title="Step 3: Add your first child profile">
             <p>
-              Your parent login is available. Next we create the family record, then add your
-              first child profile, mission defaults, and starter reward store.
+              Your parent login is available. Create the family workspace, then add your
+              first child profile. Keep it lightweight: name and age only to start.
             </p>
-            <p className="mt-3 rounded-2xl bg-yellow-tint p-4 text-yellow-ink">
-              Add your first child profile — name and age only to start. No child email required.
-            </p>
+            <form action={completeFirstFamilyOnboarding} className="mt-5 space-y-5 rounded-2xl border border-blue-soft bg-blue-tint p-5">
+              <div className="space-y-2">
+                <Label htmlFor="familyName">Family workspace name</Label>
+                <Input
+                  id="familyName"
+                  name="familyName"
+                  required
+                  placeholder="The Andreu Family"
+                  autoComplete="organization"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
+                <div className="space-y-2">
+                  <Label htmlFor="childName">First child name</Label>
+                  <Input
+                    id="childName"
+                    name="childName"
+                    required
+                    placeholder="Mateo"
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="childAge">Age</Label>
+                  <Input
+                    id="childAge"
+                    name="childAge"
+                    required
+                    type="number"
+                    min={3}
+                    max={18}
+                    inputMode="numeric"
+                    placeholder="9"
+                  />
+                </div>
+              </div>
+
+              <p className="rounded-2xl bg-white p-4 text-xs font-semibold text-ink-3">
+                Children stay as parent-owned profiles. They do not need separate login accounts,
+                and this setup avoids public profiles or payment-style identity fields.
+              </p>
+
+              <Button type="submit" size="lg">
+                Create my family workspace <ArrowRight className="h-4 w-4" />
+              </Button>
+            </form>
           </SetupCard>
         )}
 

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { Role } from "@prisma/client";
 import { getPrisma } from "@/lib/db";
 import {
   getMissingProductionServiceKeys,
@@ -107,6 +108,53 @@ export async function ensureParentFamilyForClerkUser(input: EnsureParentFamilyIn
       family,
       created: true,
     };
+  });
+}
+
+type CreateFirstChildProfileInput = {
+  familyId: string;
+  name: string;
+  age: number;
+};
+
+export async function createFirstChildProfile(input: CreateFirstChildProfileInput) {
+  const childName = input.name.trim();
+
+  if (!childName) {
+    throw new Error("Child name is required.");
+  }
+
+  if (!Number.isInteger(input.age) || input.age < 3 || input.age > 18) {
+    throw new Error("Child age must be between 3 and 18.");
+  }
+
+  const prisma = getPrisma();
+
+  return prisma.familyMember.create({
+    data: {
+      family: { connect: { id: input.familyId } },
+      role: Role.CHILD,
+      approved: true,
+      user: {
+        create: {
+          name: childName,
+          role: Role.CHILD,
+          avatarColor: "#4285F4",
+          childProfile: {
+            create: {
+              age: input.age,
+              tokenBalance: 0,
+              virtues: ["helpfulness", "responsibility", "initiative"],
+            },
+          },
+        },
+      },
+    },
+    include: {
+      user: {
+        include: { childProfile: true },
+      },
+    },
   });
 }
 

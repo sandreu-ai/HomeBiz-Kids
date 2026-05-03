@@ -57,6 +57,31 @@ describe("production readiness scaffold", () => {
     expect(onboarding).toContain("children stay as parent-owned profiles");
   });
 
+  it("lets a ready parent complete first-family onboarding without child email", () => {
+    const onboardingPath = "src/app/onboarding/page.tsx";
+    const actionPath = "src/app/onboarding/actions.ts";
+    expect(existsSync(path.join(root, actionPath))).toBe(true);
+
+    const onboarding = read(onboardingPath);
+    const actions = read(actionPath);
+    const session = read("src/lib/family/parent-family-session.ts");
+
+    expect(onboarding).toContain("completeFirstFamilyOnboarding");
+    expect(onboarding).toContain('name="familyName"');
+    expect(onboarding).toContain('name="childName"');
+    expect(onboarding).toContain('name="childAge"');
+    expect(onboarding).toContain("Create my family workspace");
+    expect(actions).toContain('"use server"');
+    expect(actions).toContain("ensureParentFamilyForClerkUser");
+    expect(actions).toContain("createFirstChildProfile");
+    expect(actions).toContain('redirect("/dashboard/children")');
+    expect(session).toContain("createFirstChildProfile");
+    expect(session).toContain("virtues");
+    expect(session).not.toContain("childEmail");
+    expect(actions).not.toContain("childEmail");
+    expect(onboarding).not.toContain("childEmail");
+  });
+
   it("points public acquisition CTAs at sign-up while preserving explicit demo access", () => {
     const publicNav = read("src/components/layout/PublicNav.tsx");
     const landing = read("src/app/page.tsx");
