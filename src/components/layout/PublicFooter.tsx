@@ -12,7 +12,7 @@ export function PublicFooter() {
               <span className="font-extrabold text-lg tracking-tight">HomeBiz Kids</span>
             </div>
             <p className="text-sm text-white/60 leading-relaxed max-w-xs">
-              A family marketplace that rewires the brain — helping kids practice initiative, service, standards, and delayed gratification while bringing more peace to the home.
+              Gamified character formation that helps kids practice responsibility, service, courage, and entrepreneurial follow-through at home.
             </p>
           </div>
 

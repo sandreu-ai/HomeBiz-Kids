@@ -10,10 +10,10 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-ink mb-6 leading-tight tracking-tight text-center">
-            A family marketplace that rewires the brain.
+            Gamified formation for better humans.
           </h1>
           <p className="text-lg text-ink-3 leading-relaxed mb-12 text-center">
-            HomeBiz Kids exists to help parents form capable, generous, goal-oriented children while creating more peace at home. The work matters, but the deeper purpose is the child becoming the kind of person who notices needs, serves family, follows standards, saves patiently, and creates value.
+            HomeBiz Kids helps parents turn everyday family life into a game for responsibility, service, courage, follow-through, and entrepreneurial thinking.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
@@ -44,7 +44,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl font-bold text-ink mb-3">What it is — and isn't</h2>
               <p className="text-ink-3 mb-3">
-                HomeBiz Kids is a family marketplace that rewires the brain. Parents can create missions around household help, sibling service, social courage, stewardship, discipline, and savings goals. Kids can also pitch work they notice on their own. Tokens flow into a wallet and toward goals your family controls.
+                HomeBiz Kids is a parent-led mission game. Parents create growth challenges around household help, sibling service, social courage, stewardship, discipline, and savings goals. Kids can also pitch work they notice on their own. Tokens stay virtual and point toward family-controlled rewards.
               </p>
               <p className="text-ink-3">
                 It is <em>not</em> a chore tracker disguised as a sticker chart. It is <em>not</em> a public marketplace or a way to pay kids real cash through an app — there is no fiat exchange in HomeBiz Kids, ever. Tokens are virtual. What they unlock is up to your family.
