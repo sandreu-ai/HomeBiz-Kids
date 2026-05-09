@@ -22,6 +22,39 @@ const caveat = Caveat({
   weight: ["500", "600", "700"],
 });
 
+const baseUrl = "https://www.homebizkids.com";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "HomeBiz Kids",
+  url: baseUrl,
+  logo: `${baseUrl}/icons/icon-512.png`,
+  description:
+    "A privacy-first family app for parent-led missions, proof, praise, and rewards that help kids practice character and entrepreneurial thinking.",
+};
+
+const webApplicationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "HomeBiz Kids",
+  url: baseUrl,
+  applicationCategory: "EducationalApplication",
+  operatingSystem: "Web",
+  audience: {
+    "@type": "Audience",
+    audienceType: "Parents and families",
+  },
+  description:
+    "HomeBiz Kids turns real family needs into missions where kids practice responsibility, service, courage, and value creation.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Free forever for one child.",
+  },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.homebizkids.com"),
   title: "HomeBiz Kids — Gamified character formation for families",
@@ -86,6 +119,16 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${dmMono.variable} ${caveat.variable} h-full`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationJsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-bone font-sans">
         <Providers>
           {children}
