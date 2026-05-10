@@ -12,7 +12,7 @@ Live site: https://homebizkids.com → https://www.homebizkids.com/
 - App currently runs on demo data from `src/lib/demo-data/`.
 - Clerk is installed/scaffolded with `/sign-in`, `/sign-up`, and `src/proxy.ts`; real protection activates only when Clerk env vars are present.
 - Session/demo state is still simulated through `src/providers/DemoSessionProvider.tsx` until Clerk users are mapped to persisted family records.
-- Prisma schema exists in `prisma/schema.prisma`; server-only Prisma/Postgres adapter scaffold exists in `src/lib/db.ts`. Local `DATABASE_URL` is present and structurally valid for Supabase project ref `lgwewyvxddyswgqrkynv`, but `npx prisma db push` is currently blocked by Supabase `P1000 Authentication failed` until the database password/connection string is reset from that exact project.
+- Prisma schema exists in `prisma/schema.prisma`; server-only Prisma/Postgres adapter scaffold exists in `src/lib/db.ts`. Local Supabase Postgres is now connected: runtime `DATABASE_URL` uses the Supabase Prisma pooled URL with `?pgbouncer=true`, and `npx prisma db push` succeeded when run against the Supabase direct/session pooler URL on port `5432`.
 - `/onboarding` exists as the first parent-owned real account setup route; it reports missing Clerk/DB services and keeps child profiles under the parent account model.
 - `/dashboard` now uses `src/lib/family/dashboard-data.ts` as the first family-scoped real-data seam: no-key/no-DB sessions use demo counts, while configured Clerk/Postgres sessions use scoped Prisma aggregate counts for open jobs, in-progress jobs, pending pitches, invoices, child count, and tokens.
 - There was no `.env.example` even though the README instructs `cp .env.example .env.local`; this has now been added.
@@ -66,11 +66,12 @@ Recommended sequence:
    - Trusted adults can be invited later; do not let them see unrelated family data.
    - Still needed: real Clerk env vars and mapping Clerk user IDs to family/user records.
 
-3. Add Supabase/Postgres. ⏳
-   - Local `DATABASE_URL` is present and points to Supabase transaction pooler project ref `lgwewyvxddyswgqrkynv`.
-   - `npx prisma validate` and `npx prisma generate` pass.
-   - `npx prisma db push` currently fails with `P1000 Authentication failed`; reset the DB password in the same Supabase project and regenerate the Prisma pooled URL before retrying.
-   - Create `prisma/seed.ts` that mirrors demo data for development/demo accounts after DB push succeeds.
+3. Add Supabase/Postgres. ✅
+   - Local `DATABASE_URL` is present and points to Supabase transaction pooler project ref `lgwewyvxddyswgqrkynv` with `?pgbouncer=true` for runtime/serverless pooling.
+   - Supabase database password was reset through the authenticated Chrome dashboard session without exposing the secret.
+   - `npx prisma validate`, `npx prisma generate`, and `npx prisma db push` pass; schema push used the direct/session pooler URL on port `5432`.
+   - Public schema now has 23 HomeBiz Kids tables.
+   - Create `prisma/seed.ts` that mirrors demo data for development/demo accounts after the first real onboarding verification.
 
 4. Prisma client + parent/family scaffold. ✅
    - `src/lib/db.ts` exports a server-only lazy Prisma client helper using `@prisma/adapter-pg`, so no-key/no-DB builds do not instantiate Prisma during prerender.
