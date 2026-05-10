@@ -14,11 +14,23 @@ const BONE = "#FAF7F2";
 const BLUE_DEEP = "#1A73E8";
 const sourceSvg = readFileSync(join(PUBLIC, "logo.svg"));
 
-// Standard PWA sizes — square logo on bone background, padded
-async function emitPadded(size, outName, bg = BONE, padPct = 0.18) {
-  const inner = Math.round(size * (1 - padPct * 2));
-  const offset = Math.round((size - inner) / 2);
-  const logo = await sharp(sourceSvg).resize(inner, inner).png().toBuffer();
+// Trim the SVG's internal whitespace first, then place the logomark larger inside
+// the app icon. The old generator rendered the visible house at ~35% of the
+// icon; these scales make the visible logo roughly 75% larger while preserving
+// safe margins for iOS/PWA masks.
+async function renderLogo(markSize) {
+  return sharp(sourceSvg)
+    .resize(1024, 1024, { fit: "contain" })
+    .trim({ threshold: 8 })
+    .resize(markSize, markSize, { fit: "inside" })
+    .png()
+    .toBuffer();
+}
+
+async function emitIcon(size, outName, bg = BONE, markPct = 0.62) {
+  const markSize = Math.round(size * markPct);
+  const offset = Math.round((size - markSize) / 2);
+  const logo = await renderLogo(markSize);
   return sharp({
     create: { width: size, height: size, channels: 4, background: bg },
   })
@@ -27,17 +39,10 @@ async function emitPadded(size, outName, bg = BONE, padPct = 0.18) {
     .toFile(join(ICONS, outName));
 }
 
-// Maskable: blue background, full-bleed safe area (logo at 60% to satisfy mask)
+// Maskable icons keep a little more safe area so OS-level crops do not cut off
+// the roof while still making the logo materially larger than before.
 async function emitMaskable(size, outName) {
-  const inner = Math.round(size * 0.6);
-  const offset = Math.round((size - inner) / 2);
-  const logo = await sharp(sourceSvg).resize(inner, inner).png().toBuffer();
-  return sharp({
-    create: { width: size, height: size, channels: 4, background: BLUE_DEEP },
-  })
-    .composite([{ input: logo, top: offset, left: offset }])
-    .png()
-    .toFile(join(ICONS, outName));
+  return emitIcon(size, outName, BLUE_DEEP, 0.58);
 }
 
 const sizes = [
@@ -50,19 +55,19 @@ const sizes = [
 ];
 
 const tasks = sizes.map(([name, size, kind]) =>
-  kind === "maskable" ? emitMaskable(size, name) : emitPadded(size, name)
+  kind === "maskable" ? emitMaskable(size, name) : emitIcon(size, name)
 );
 
 // apple-touch-icon: 180×180, no transparency (iOS clips a rounded square)
-tasks.push(emitPadded(180, "../apple-touch-icon.png", "#FFFFFF", 0.16));
+tasks.push(emitIcon(180, "../apple-touch-icon.png", "#FFFFFF", 0.65));
 
 // favicon ico-style — use a 32×32 PNG (modern browsers accept PNG favicons)
-tasks.push(emitPadded(32, "../favicon.png", BONE, 0.12));
+tasks.push(emitIcon(32, "../favicon.png", BONE, 0.72));
 
 // Smaller iOS sizes (older devices)
-tasks.push(emitPadded(120, "icon-120.png", "#FFFFFF", 0.16));
-tasks.push(emitPadded(152, "icon-152.png", "#FFFFFF", 0.16));
-tasks.push(emitPadded(167, "icon-167.png", "#FFFFFF", 0.16));
+tasks.push(emitIcon(120, "icon-120.png", "#FFFFFF", 0.65));
+tasks.push(emitIcon(152, "icon-152.png", "#FFFFFF", 0.65));
+tasks.push(emitIcon(167, "icon-167.png", "#FFFFFF", 0.65));
 
 await Promise.all(tasks);
 console.log("✓ Icons written to public/icons + apple-touch-icon.png + favicon.png");
