@@ -104,6 +104,28 @@ describe("production readiness scaffold", () => {
     expect(dashboard).not.toContain("Object.values(DEMO_CHILD_PROFILES)");
   });
 
+  it("replaces the children dashboard demo list with family-scoped child profiles", () => {
+    const dataPath = "src/lib/family/children-data.ts";
+    const childrenPath = "src/app/dashboard/children/page.tsx";
+    expect(existsSync(path.join(root, dataPath))).toBe(true);
+
+    const data = read(dataPath);
+    const childrenPage = read(childrenPath);
+
+    expect(data).toContain("getParentChildrenProfiles");
+    expect(data).toContain("getParentFamilySessionStatus");
+    expect(data).toContain("clerkUserId");
+    expect(data).toContain("familyId");
+    expect(data).toContain("Role.PARENT");
+    expect(data).toContain("Role.CHILD");
+    expect(data).toContain("mode: \"demo\"");
+    expect(data).toContain("mode: \"live\"");
+    expect(data).not.toContain("childEmail");
+    expect(childrenPage).toContain("await getParentChildrenProfiles()");
+    expect(childrenPage).not.toContain("Object.values(DEMO_CHILD_PROFILES)");
+    expect(childrenPage).toContain("No child profiles yet");
+  });
+
   it("points public acquisition CTAs at sign-up while preserving explicit demo access", () => {
     const publicNav = read("src/components/layout/PublicNav.tsx");
     const landing = read("src/app/page.tsx");

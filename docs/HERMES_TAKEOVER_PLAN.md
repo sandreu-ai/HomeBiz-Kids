@@ -81,11 +81,12 @@ Recommended sequence:
    - `User.clerkUserId` is present in `prisma/schema.prisma` for Clerk-to-family mapping.
    - Signed-in parent onboarding was verified locally on 2026-05-10 with a Clerk test parent and Supabase/Postgres: `/onboarding` created one `Family`, one parent `User`, one parent `FamilyMember`, one child `User`, one child `FamilyMember`, and one `ChildProfile` with child email/clerk ID remaining `null`.
    - `src/lib/family/dashboard-data.ts` provides the first family-scoped dashboard aggregate path with demo fallback until real services are configured; `/dashboard` showed live aggregate cards with 0 open jobs, 0 pending pitches, 0 invoices, and 1 child for the verified parent family.
-   - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, dashboard data seam, and CTA scaffolds.
+   - `src/lib/family/children-data.ts` provides a family-scoped `/dashboard/children` profile list with demo fallback; the authenticated/live path scopes child profiles by the current Clerk parent's `familyId` and keeps child email/clerk IDs out of the child account model.
+   - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, dashboard data seam, children data seam, and CTA scaffolds.
 
 5. Replace demo reads incrementally.
-   - Start with family/session resolution.
-   - Then jobs.
+   - Family/session resolution, dashboard summary cards, and `/dashboard/children` are now wired through family-scoped helpers with demo fallback.
+   - Next: jobs.
    - Then proposals/pitches.
    - Then invoices and wallet transactions.
    - Then rewards/savings/reports.
@@ -127,6 +128,7 @@ Recommended sequence:
 - `src/proxy.ts` uses the Next.js 16 proxy convention instead of deprecated `middleware.ts`; it passes through while Clerk keys are absent and protects `/dashboard`, `/child`, and `/trusted` once both Clerk keys exist.
 - `src/lib/production/production-readiness.test.ts` codifies the current production-readiness scaffold: centralized Clerk/DB service checks, server-only Prisma helper, parent-family mapping, `/onboarding`, dashboard aggregate reads, and public CTA routing to real auth.
 - `src/lib/family/dashboard-data.ts` intentionally keeps demo fallback for no-key/no-DB sessions while making `/dashboard` dynamic and ready to show live family-scoped aggregate counts after Clerk/Postgres are configured.
+- `src/lib/family/children-data.ts` intentionally keeps demo fallback for no-key/no-DB sessions while making `/dashboard/children` dynamic and ready to show only the signed-in parent's persisted child profiles after Clerk/Postgres are configured.
 - `src/lib/db.ts` intentionally creates Prisma lazily and uses `@prisma/adapter-pg` because Prisma 7 requires a driver adapter; do not instantiate Prisma at module scope or no-DB builds will fail while collecting page data.
 - `src/app/onboarding/page.tsx` is the current bridge route from demo to real family setup: it shows missing service keys, sends signed-out parents to `/sign-up`, and keeps children as parent-owned profiles.
 - Public marketing CTAs now point to `/sign-up` and `/sign-in`, with an explicit “View demo dashboard” link retained for previews.
