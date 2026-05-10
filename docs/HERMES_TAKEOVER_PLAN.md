@@ -14,6 +14,7 @@ Live site: https://homebizkids.com → https://www.homebizkids.com/
 - Session/demo state is still simulated through `src/providers/DemoSessionProvider.tsx` until Clerk users are mapped to persisted family records.
 - Prisma schema exists in `prisma/schema.prisma`; server-only Prisma/Postgres adapter scaffold now exists in `src/lib/db.ts`, but a real `DATABASE_URL` is still needed before persistence is active.
 - `/onboarding` exists as the first parent-owned real account setup route; it reports missing Clerk/DB services and keeps child profiles under the parent account model.
+- `/dashboard` now uses `src/lib/family/dashboard-data.ts` as the first family-scoped real-data seam: no-key/no-DB sessions use demo counts, while configured Clerk/Postgres sessions use scoped Prisma aggregate counts for open jobs, in-progress jobs, pending pitches, invoices, child count, and tokens.
 - There was no `.env.example` even though the README instructs `cp .env.example .env.local`; this has now been added.
 
 ## Non-negotiable product rules
@@ -74,7 +75,8 @@ Recommended sequence:
    - `src/lib/db.ts` exports a server-only lazy Prisma client helper using `@prisma/adapter-pg`, so no-key/no-DB builds do not instantiate Prisma during prerender.
    - `src/lib/family/parent-family-session.ts` maps Clerk parent IDs to internal `User`/`Family` records and keeps child profiles created separately under the parent account.
    - `User.clerkUserId` is present in `prisma/schema.prisma` for Clerk-to-family mapping.
-   - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, and CTA scaffolds.
+   - `src/lib/family/dashboard-data.ts` provides the first family-scoped dashboard aggregate path with demo fallback until real services are configured.
+   - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, dashboard data seam, and CTA scaffolds.
 
 5. Replace demo reads incrementally.
    - Start with family/session resolution.
@@ -118,7 +120,8 @@ Recommended sequence:
 - `src/lib/auth/clerk-setup.test.ts` codifies Clerk integration expectations: dependency installed, provider wraps the app when configured, `/sign-in` and `/sign-up` exist, `src/proxy.ts` protects app sections, and `.env.example` uses placeholders only.
 - `src/providers/index.tsx` intentionally runs without `ClerkProvider` when `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is absent so local demo mode and Vercel preview builds do not crash before Clerk env vars are installed.
 - `src/proxy.ts` uses the Next.js 16 proxy convention instead of deprecated `middleware.ts`; it passes through while Clerk keys are absent and protects `/dashboard`, `/child`, and `/trusted` once both Clerk keys exist.
-- `src/lib/production/production-readiness.test.ts` codifies the current production-readiness scaffold: centralized Clerk/DB service checks, server-only Prisma helper, parent-family mapping, `/onboarding`, and public CTA routing to real auth.
+- `src/lib/production/production-readiness.test.ts` codifies the current production-readiness scaffold: centralized Clerk/DB service checks, server-only Prisma helper, parent-family mapping, `/onboarding`, dashboard aggregate reads, and public CTA routing to real auth.
+- `src/lib/family/dashboard-data.ts` intentionally keeps demo fallback for no-key/no-DB sessions while making `/dashboard` dynamic and ready to show live family-scoped aggregate counts after Clerk/Postgres are configured.
 - `src/lib/db.ts` intentionally creates Prisma lazily and uses `@prisma/adapter-pg` because Prisma 7 requires a driver adapter; do not instantiate Prisma at module scope or no-DB builds will fail while collecting page data.
 - `src/app/onboarding/page.tsx` is the current bridge route from demo to real family setup: it shows missing service keys, sends signed-out parents to `/sign-up`, and keeps children as parent-owned profiles.
 - Public marketing CTAs now point to `/sign-up` and `/sign-in`, with an explicit “View demo dashboard” link retained for previews.

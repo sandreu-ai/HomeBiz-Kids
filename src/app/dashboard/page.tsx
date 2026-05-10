@@ -20,19 +20,15 @@ import {
 import {
   DEMO_JOBS,
   DEMO_PROPOSALS,
-  DEMO_INVOICES,
   DEMO_PITCHES,
   DEMO_ACTIVITY,
-  DEMO_CHILD_PROFILES,
   DEMO_WEEKLY_REPORT,
 } from "@/lib/demo-data";
+import { getParentDashboardSummary } from "@/lib/family/dashboard-data";
 
-export default function DashboardPage() {
-  const openJobs = DEMO_JOBS.filter((j) => j.status === "OPEN").length;
-  const inProgressJobs = DEMO_JOBS.filter((j) => j.status === "IN_PROGRESS" || j.status === "CLAIMED").length;
-  const pendingProposals = DEMO_PITCHES.filter((p) => p.status === "PENDING").length;
-  const pendingInvoices = DEMO_INVOICES.filter((i) => i.status === "SUBMITTED").length;
-  const totalTokens = Object.values(DEMO_CHILD_PROFILES).reduce((sum, c) => sum + c.tokenBalance, 0);
+export default async function DashboardPage() {
+  const summary = await getParentDashboardSummary();
+  const { openJobs, pendingProposals, pendingInvoices, totalTokens, childCount } = summary;
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -80,7 +76,7 @@ export default function DashboardPage() {
         <DashboardCard
           label="Family Tokens"
           value={totalTokens}
-          subtext={`Across ${Object.keys(DEMO_CHILD_PROFILES).length} children`}
+          subtext={`Across ${childCount} ${childCount === 1 ? "child" : "children"}`}
           icon={Coins}
           iconColor="text-yellow-ink"
           iconBg="bg-yellow-tint"
