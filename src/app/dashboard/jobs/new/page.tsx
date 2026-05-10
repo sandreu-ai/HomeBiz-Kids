@@ -8,17 +8,36 @@ import { DEMO_JOB_SUGGESTIONS } from "@/lib/demo-data";
 import { JobSuggestionPanel } from "@/components/job/JobSuggestionPanel";
 import { ChecklistEditor } from "@/components/job/ChecklistEditor";
 import Link from "next/link";
+import { createParentJob, getParentJobFormOptions } from "../actions";
 
-export default function NewJobPage() {
-  const categories = [
-    "HOUSEHOLD", "YARD_WORK", "PET_CARE", "LEARNING", "SERVICE",
-    "CREATIVE", "BUSINESS", "BONUS_CHALLENGE", "ORGANIZATION", "OUTDOOR"
-  ];
-  const difficulties = ["EASY", "MEDIUM", "HARD", "CHALLENGE"];
-  const virtues = [
-    "RESPONSIBILITY", "INITIATIVE", "DILIGENCE", "HONESTY", "FOLLOW_THROUGH",
-    "PROBLEM_SOLVING", "SERVICE", "STEWARDSHIP", "COMMUNICATION", "RESILIENCE"
-  ];
+const categories = [
+  "HOUSEHOLD",
+  "YARD_WORK",
+  "PET_CARE",
+  "LEARNING",
+  "SERVICE",
+  "CREATIVE",
+  "BUSINESS",
+  "BONUS_CHALLENGE",
+  "ORGANIZATION",
+  "OUTDOOR",
+];
+const difficulties = ["EASY", "MEDIUM", "HARD", "CHALLENGE"];
+const virtues = [
+  "RESPONSIBILITY",
+  "INITIATIVE",
+  "DILIGENCE",
+  "HONESTY",
+  "FOLLOW_THROUGH",
+  "PROBLEM_SOLVING",
+  "SERVICE",
+  "STEWARDSHIP",
+  "COMMUNICATION",
+  "RESILIENCE",
+];
+
+export default async function NewJobPage() {
+  const options = await getParentJobFormOptions();
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -32,18 +51,19 @@ export default function NewJobPage() {
       </PageHeader>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Form */}
-        <form className="lg:col-span-2 space-y-6">
+        <form action={createParentJob} className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl border border-line shadow-card p-6 space-y-5">
             <h2 className="font-semibold text-ink">The work</h2>
             <div className="space-y-2">
               <Label htmlFor="title">Job title</Label>
-              <Input id="title" placeholder="e.g. Clean Your Room" />
+              <Input id="title" name="title" required placeholder="e.g. Clean Your Room" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
+                name="description"
+                required
                 rows={4}
                 placeholder="Be clear about exactly what needs to happen so there's no confusion later."
               />
@@ -55,7 +75,7 @@ export default function NewJobPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Category</Label>
-                <Select>
+                <Select name="category" defaultValue="HOUSEHOLD">
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -70,7 +90,7 @@ export default function NewJobPage() {
               </div>
               <div className="space-y-2">
                 <Label>Difficulty</Label>
-                <Select>
+                <Select name="difficulty" defaultValue="MEDIUM">
                   <SelectTrigger>
                     <SelectValue placeholder="Select difficulty" />
                   </SelectTrigger>
@@ -97,9 +117,9 @@ export default function NewJobPage() {
           <div className="bg-white rounded-2xl border border-line shadow-card p-6 space-y-5">
             <h2 className="font-semibold text-ink">Reward & assignment</h2>
             <div className="space-y-2">
-              <Label htmlFor="reward-amount">Token reward</Label>
+              <Label htmlFor="tokenReward">Token reward</Label>
               <div className="flex items-center gap-3">
-                <Input id="reward-amount" type="number" placeholder="25" className="w-32" />
+                <Input id="tokenReward" name="tokenReward" type="number" min={0} placeholder="25" className="w-32" />
                 <span className="text-sm text-ink-3">tokens</span>
               </div>
               <p className="text-xs text-ink-3">
@@ -109,26 +129,34 @@ export default function NewJobPage() {
 
             <div className="space-y-2">
               <Label>Assigned to</Label>
-              <Select defaultValue="open">
+              <Select name="assignedChildUserId" defaultValue="open">
                 <SelectTrigger>
                   <SelectValue placeholder="Open or assigned" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="open">Open to all children</SelectItem>
-                  <SelectItem value="child-daniel">Daniel</SelectItem>
-                  <SelectItem value="child-mateo">Mateo</SelectItem>
+                  {options.children.map((child) => (
+                    <SelectItem key={child.userId} value={child.userId}>
+                      {child.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
+              {options.mode === "live" && options.children.length === 0 && (
+                <p className="text-xs text-ink-3">
+                  Add a child profile first, then assign jobs directly.
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="due">Due date</Label>
-                <Input id="due" type="date" />
+                <Label htmlFor="dueDate">Due date</Label>
+                <Input id="dueDate" name="dueDate" type="date" />
               </div>
               <div className="space-y-2">
                 <Label>Proof required</Label>
-                <Select defaultValue="AFTER_ONLY">
+                <Select name="proofRequirement" defaultValue="AFTER_ONLY">
                   <SelectTrigger>
                     <SelectValue placeholder="Proof setting" />
                   </SelectTrigger>
@@ -150,13 +178,13 @@ export default function NewJobPage() {
             </p>
             <div className="flex flex-wrap gap-2">
               {virtues.map((v) => (
-                <button
+                <label
                   key={v}
-                  type="button"
-                  className="px-3 py-1.5 text-xs font-medium rounded-full border border-line bg-bone hover:border-green hover:bg-green-tint transition-colors text-ink"
+                  className="px-3 py-1.5 text-xs font-medium rounded-full border border-line bg-bone hover:border-green hover:bg-green-tint transition-colors text-ink cursor-pointer"
                 >
+                  <input type="checkbox" name={`virtue:${v}`} className="sr-only" />
                   {v.replace("_", " ").toLowerCase()}
-                </button>
+                </label>
               ))}
             </div>
           </div>
@@ -165,13 +193,10 @@ export default function NewJobPage() {
             <Button variant="ghost" asChild>
               <Link href="/dashboard/jobs">Cancel</Link>
             </Button>
-            <Button asChild>
-              <Link href="/dashboard/jobs">Post job</Link>
-            </Button>
+            <Button type="submit">Post job</Button>
           </div>
         </form>
 
-        {/* Suggestions sidebar */}
         <div className="space-y-4">
           <JobSuggestionPanel suggestions={DEMO_JOB_SUGGESTIONS} />
         </div>

@@ -1,14 +1,14 @@
 {
-  "name": "HomeBiz Kids — A family marketplace that rewires the brain",
+  "name": "HomeBiz Kids — A private family app for raising capable kids",
   "short_name": "HomeBiz Kids",
-  "description": "Form capable, goal-oriented kids through family missions, sibling service, delayed gratification, and a parent-controlled token economy.",
+  "description": "A private family app for raising capable kids through parent-created missions, child proof-of-work, family rewards, and a parent-controlled token economy.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FAF7F2",
   "theme_color": "#1A73E8",
-  "categories": ["lifestyle", "education", "productivity", "finance"],
+  "categories": ["lifestyle", "education", "productivity"],
   "lang": "en",
   "dir": "ltr",
   "icons": [
@@ -65,8 +65,8 @@
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "My Wallet",
-      "short_name": "Wallet",
+      "name": "Token Wallet",
+      "short_name": "Tokens",
       "description": "See tokens, progress, and savings goals",
       "url": "/child/wallet",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]

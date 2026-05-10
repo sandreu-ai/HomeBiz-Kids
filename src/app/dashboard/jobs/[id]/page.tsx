@@ -7,13 +7,13 @@ import { DifficultyBadge } from "@/components/job/DifficultyBadge";
 import { VirtueBadge } from "@/components/job/VirtueBadge";
 import { QualityChecklist } from "@/components/job/QualityChecklist";
 import { BeforeAfterComparison } from "@/components/proof/BeforeAfterComparison";
-import { DEMO_JOBS } from "@/lib/demo-data";
 import { Calendar, User, Coins, Clock, ArrowLeft } from "lucide-react";
 import { formatDate, formatTokens, getCategoryEmoji, getCategoryLabel } from "@/lib/utils";
+import { getParentJobById } from "@/lib/family/jobs-data";
 
 export default async function JobDetailPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
-  const job = DEMO_JOBS.find((j) => j.id === id);
+  const job = await getParentJobById(id);
   if (!job) notFound();
 
   return (

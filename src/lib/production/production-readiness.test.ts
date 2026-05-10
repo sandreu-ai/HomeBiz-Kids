@@ -126,6 +126,67 @@ describe("production readiness scaffold", () => {
     expect(childrenPage).toContain("No child profiles yet");
   });
 
+  it("replaces parent jobs demo surfaces with family-scoped reads and a real create action", () => {
+    const dataPath = "src/lib/family/jobs-data.ts";
+    const actionsPath = "src/app/dashboard/jobs/actions.ts";
+    const jobsPath = "src/app/dashboard/jobs/page.tsx";
+    const newJobPath = "src/app/dashboard/jobs/new/page.tsx";
+    const detailPath = "src/app/dashboard/jobs/[id]/page.tsx";
+
+    for (const file of [dataPath, actionsPath]) {
+      expect(existsSync(path.join(root, file))).toBe(true);
+    }
+
+    const data = read(dataPath);
+    const actions = read(actionsPath);
+    const jobsPage = read(jobsPath);
+    const newJobPage = read(newJobPath);
+    const detailPage = read(detailPath);
+
+    expect(data).toContain("getParentJobs");
+    expect(data).toContain("getParentJobById");
+    expect(data).toContain("getParentJobFormOptions");
+    expect(data).toContain("getParentFamilySessionStatus");
+    expect(data).toContain("familyId");
+    expect(data).toContain("Role.PARENT");
+    expect(data).toContain("JobStatus.OPEN");
+    expect(data).toContain("mode: \"demo\"");
+    expect(data).toContain("mode: \"live\"");
+    expect(data).not.toContain("childEmail");
+    expect(actions).toContain('"use server"');
+    expect(actions).toContain("createParentJob");
+    expect(actions).toContain("getParentJobFormOptions");
+    expect(actions).toContain('redirect("/dashboard/jobs");');
+    expect(jobsPage).toContain("await getParentJobs()");
+    expect(jobsPage).not.toContain("DEMO_JOBS.filter");
+    expect(newJobPage).toContain("action={createParentJob}");
+    expect(newJobPage).toContain('name="assignedChildUserId"');
+    expect(newJobPage).not.toContain("child-daniel");
+    expect(detailPage).toContain("await getParentJobById(id)");
+    expect(detailPage).not.toContain("DEMO_JOBS.find");
+  });
+
+  it("adds launch-ready mobile PWA metadata and Apple App Store / Google Play scaffolding", () => {
+    const manifest = read("public/manifest.json");
+    const mobile = read("src/lib/mobile/app-store-readiness.ts");
+    const pricing = read("src/app/pricing/page.tsx");
+    const pkg = read("package.json");
+
+    expect(manifest).toContain("A private family app for raising capable kids");
+    expect(manifest).not.toContain("rewires the brain");
+    expect(manifest).not.toContain('"finance"');
+    expect(mobile).toContain("PWA-first beta");
+    expect(mobile).toContain("Apple App Store");
+    expect(mobile).toContain("Google Play");
+    expect(mobile).toContain("separate from Apple Pay wallet checkout");
+    expect(mobile).toContain("No public kid profiles");
+    expect(mobile).toContain("Virtual tokens only");
+    expect(pricing).toContain("No app store fees. No surprises.");
+    expect(pricing).not.toContain("Apple Pay");
+    expect(pricing).not.toContain("/api/stripe/checkout");
+    expect(pkg).not.toContain('\"stripe\"');
+  });
+
   it("points public acquisition CTAs at sign-up while preserving explicit demo access", () => {
     const publicNav = read("src/components/layout/PublicNav.tsx");
     const landing = read("src/app/page.tsx");
