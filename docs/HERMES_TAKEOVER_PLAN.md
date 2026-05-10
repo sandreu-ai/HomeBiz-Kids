@@ -68,7 +68,9 @@ Recommended sequence:
 
 3. Add Supabase/Postgres. ✅
    - Local `DATABASE_URL` is present and points to Supabase transaction pooler project ref `lgwewyvxddyswgqrkynv` with `?pgbouncer=true` for runtime/serverless pooling.
+   - Local and Vercel `DIRECT_URL` use the same Supabase pooler host on port `5432` without `?pgbouncer=true` for Prisma schema/admin operations.
    - Supabase database password was reset through the authenticated Chrome dashboard session without exposing the secret.
+   - `DATABASE_URL` and `DIRECT_URL` were added/updated in the Vercel `home-biz-kids` project for production and preview through the authenticated local browser session, without printing credential values.
    - `npx prisma validate`, `npx prisma generate`, and `npx prisma db push` pass; schema push used the direct/session pooler URL on port `5432`.
    - Public schema now has 23 HomeBiz Kids tables.
    - Create `prisma/seed.ts` that mirrors demo data for development/demo accounts after the first real onboarding verification.
