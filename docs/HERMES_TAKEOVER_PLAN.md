@@ -79,7 +79,8 @@ Recommended sequence:
    - `src/lib/db.ts` exports a server-only lazy Prisma client helper using `@prisma/adapter-pg`, so no-key/no-DB builds do not instantiate Prisma during prerender.
    - `src/lib/family/parent-family-session.ts` maps Clerk parent IDs to internal `User`/`Family` records and keeps child profiles created separately under the parent account.
    - `User.clerkUserId` is present in `prisma/schema.prisma` for Clerk-to-family mapping.
-   - `src/lib/family/dashboard-data.ts` provides the first family-scoped dashboard aggregate path with demo fallback until real services are configured.
+   - Signed-in parent onboarding was verified locally on 2026-05-10 with a Clerk test parent and Supabase/Postgres: `/onboarding` created one `Family`, one parent `User`, one parent `FamilyMember`, one child `User`, one child `FamilyMember`, and one `ChildProfile` with child email/clerk ID remaining `null`.
+   - `src/lib/family/dashboard-data.ts` provides the first family-scoped dashboard aggregate path with demo fallback until real services are configured; `/dashboard` showed live aggregate cards with 0 open jobs, 0 pending pitches, 0 invoices, and 1 child for the verified parent family.
    - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, dashboard data seam, and CTA scaffolds.
 
 5. Replace demo reads incrementally.
