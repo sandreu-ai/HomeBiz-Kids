@@ -79,8 +79,8 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-tint via-bone to-yellow-tint pointer-events-none" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-14 pb-20 text-center relative">
           <div className="mb-6 flex justify-center">
-            <div className="rounded-3xl bg-white/80 p-4 shadow-card ring-1 ring-line/70 backdrop-blur">
-              <Logo size={86} />
+            <div className="rounded-[2rem] bg-white/85 p-2.5 shadow-card ring-1 ring-line/70 backdrop-blur">
+              <Logo size={112} />
             </div>
           </div>
 

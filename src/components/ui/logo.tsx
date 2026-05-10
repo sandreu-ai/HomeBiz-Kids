@@ -25,7 +25,7 @@ export function Logo({ size = 32, className }: LogoProps) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 120 120"
+      viewBox="24 24 72 76"
       className={cn("shrink-0", className)}
       role="img"
       aria-label="HomeBiz Kids"
