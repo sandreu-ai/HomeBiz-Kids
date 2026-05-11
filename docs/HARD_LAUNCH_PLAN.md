@@ -16,10 +16,11 @@ The right launch tomorrow is a **controlled PWA beta with 1-3 known families**, 
    - Parent signs up, creates family, adds first child without child email.
    - Dashboard cards and Children page show the persisted records.
 
-2. **Parent jobs are real enough for beta**
+2. **Parent-to-child jobs are real enough for beta**
    - Parent can create a job from `/dashboard/jobs/new`.
    - Job persists under the parent family only.
-   - Jobs list and job detail read from the family-scoped data seam.
+   - Parent jobs list and parent job detail read from the family-scoped data seam.
+   - Next gate: child job board reads the same family-scoped jobs and supports claim/start/submit without exposing other families.
    - No cross-family leakage.
 
 3. **Privacy and child safety are preserved**

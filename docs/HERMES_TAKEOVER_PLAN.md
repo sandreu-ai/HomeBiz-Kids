@@ -85,8 +85,8 @@ Recommended sequence:
    - `src/lib/production/production-readiness.test.ts` guards the service-readiness, Prisma, parent-family, onboarding, dashboard data seam, children data seam, and CTA scaffolds.
 
 5. Replace demo reads incrementally.
-   - Family/session resolution, dashboard summary cards, and `/dashboard/children` are now wired through family-scoped helpers with demo fallback.
-   - Next: jobs.
+   - Family/session resolution, dashboard summary cards, `/dashboard/children`, and parent `/dashboard/jobs` list/detail/create are now wired through family-scoped helpers with demo fallback.
+   - Next: make the child job board real enough for beta: authenticated child/profile selection, child-safe job reads, and claim/start/submit status actions.
    - Then proposals/pitches.
    - Then invoices and wallet transactions.
    - Then rewards/savings/reports.
