@@ -6,12 +6,12 @@ import { QualityChecklist } from "@/components/job/QualityChecklist";
 import { VirtueBadge } from "@/components/job/VirtueBadge";
 import { InvoiceReviewActions } from "@/components/invoice/InvoiceReviewActions";
 import { ArrowLeft, Zap, CheckCircle2, MessageSquare } from "lucide-react";
-import { DEMO_INVOICES } from "@/lib/demo-data";
+import { getParentInvoiceById } from "@/lib/family/invoices-data";
 import { formatDate, formatTokens, getInitials } from "@/lib/utils";
 
 export default async function InvoiceReviewPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
-  const invoice = DEMO_INVOICES.find((i) => i.id === id);
+  const invoice = await getParentInvoiceById(id);
   if (!invoice) notFound();
 
   const job = invoice.job;
@@ -165,8 +165,8 @@ export default async function InvoiceReviewPage(props: { params: Promise<{ id: s
 
         {/* Review actions */}
         <div>
-          {invoice.status === "SUBMITTED" ? (
-            <InvoiceReviewActions baseReward={job.tokenReward} />
+          {invoice.status === "SUBMITTED" || invoice.status === "RESUBMITTED" ? (
+            <InvoiceReviewActions invoiceId={invoice.id} baseReward={job.tokenReward} />
           ) : invoice.status === "APPROVED" ? (
             <div className="bg-blue-tint rounded-2xl p-5 text-center">
               <CheckCircle2 className="w-10 h-10 text-blue-deep mx-auto mb-2" />

@@ -166,6 +166,45 @@ describe("production readiness scaffold", () => {
     expect(detailPage).not.toContain("DEMO_JOBS.find");
   });
 
+  it("replaces parent invoice demo surfaces with family-scoped reads and review actions", () => {
+    const dataPath = "src/lib/family/invoices-data.ts";
+    const actionsPath = "src/app/dashboard/invoices/actions.ts";
+    const invoicesPath = "src/app/dashboard/invoices/page.tsx";
+    const detailPath = "src/app/dashboard/invoices/[id]/page.tsx";
+    const reviewActionsPath = "src/components/invoice/InvoiceReviewActions.tsx";
+
+    for (const file of [dataPath, actionsPath]) {
+      expect(existsSync(path.join(root, file))).toBe(true);
+    }
+
+    const data = read(dataPath);
+    const actions = read(actionsPath);
+    const invoicesPage = read(invoicesPath);
+    const detailPage = read(detailPath);
+    const reviewActions = read(reviewActionsPath);
+
+    expect(data).toContain("getParentInvoices");
+    expect(data).toContain("getParentInvoiceById");
+    expect(data).toContain("getParentFamilySessionStatus");
+    expect(data).toContain("familyId");
+    expect(data).toContain("Role.PARENT");
+    expect(data).toContain("InvoiceStatus");
+    expect(data).toContain("mode: \"demo\"");
+    expect(data).toContain("mode: \"live\"");
+    expect(data).not.toContain("childEmail");
+    expect(actions).toContain('"use server"');
+    expect(actions).toContain("approveParentInvoice");
+    expect(actions).toContain("requestParentInvoiceRevision");
+    expect(actions).toContain("rejectParentInvoice");
+    expect(actions).toContain("TransactionType.EARNED");
+    expect(invoicesPage).toContain("await getParentInvoices()");
+    expect(invoicesPage).not.toContain("DEMO_INVOICES");
+    expect(detailPage).toContain("await getParentInvoiceById(id)");
+    expect(detailPage).not.toContain("DEMO_INVOICES.find");
+    expect(reviewActions).toContain("action={approveParentInvoice}");
+    expect(reviewActions).not.toContain("alert(");
+  });
+
   it("adds launch-ready mobile PWA metadata and Apple App Store / Google Play scaffolding", () => {
     const manifest = read("public/manifest.json");
     const mobile = read("src/lib/mobile/app-store-readiness.ts");

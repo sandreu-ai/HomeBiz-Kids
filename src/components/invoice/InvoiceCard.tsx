@@ -23,9 +23,11 @@ export function InvoiceCard({ invoice, viewAs = "parent" }: InvoiceCardProps) {
   const statusLabel: Record<typeof invoice.status, string> = {
     DRAFT: "Draft",
     SUBMITTED: "Awaiting Review",
+    REVISION_REQUESTED: "Revision Requested",
+    RESUBMITTED: "Resubmitted",
     APPROVED: "Approved",
     REJECTED: "Rejected",
-    REVISION_REQUESTED: "Revision Requested",
+    PAID: "Paid",
   };
 
   return (

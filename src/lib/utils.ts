@@ -83,9 +83,11 @@ export function getInvoiceStatusColor(status: InvoiceStatus): string {
   const colors: Record<InvoiceStatus, string> = {
     DRAFT: "bg-line-soft text-ink-3",
     SUBMITTED: "bg-blue-tint text-blue-deep",
+    REVISION_REQUESTED: "bg-yellow-tint text-yellow-ink",
+    RESUBMITTED: "bg-blue-tint text-blue-deep",
     APPROVED: "bg-green-tint text-green-deep",
     REJECTED: "bg-red-tint text-red-deep",
-    REVISION_REQUESTED: "bg-yellow-tint text-yellow-ink",
+    PAID: "bg-green-tint text-green-deep",
   };
   return colors[status];
 }

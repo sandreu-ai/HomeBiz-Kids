@@ -3,12 +3,13 @@ import { InvoiceCard } from "@/components/invoice/InvoiceCard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui-custom/EmptyState";
 import { Receipt } from "lucide-react";
-import { DEMO_INVOICES } from "@/lib/demo-data";
+import { getParentInvoices } from "@/lib/family/invoices-data";
 
-export default function InvoicesPage() {
-  const submitted = DEMO_INVOICES.filter((i) => i.status === "SUBMITTED");
-  const approved = DEMO_INVOICES.filter((i) => i.status === "APPROVED");
-  const revision = DEMO_INVOICES.filter((i) => i.status === "REVISION_REQUESTED");
+export default async function InvoicesPage() {
+  const { invoices } = await getParentInvoices();
+  const submitted = invoices.filter((i) => i.status === "SUBMITTED" || i.status === "RESUBMITTED");
+  const approved = invoices.filter((i) => i.status === "APPROVED");
+  const revision = invoices.filter((i) => i.status === "REVISION_REQUESTED");
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -22,7 +23,7 @@ export default function InvoicesPage() {
           <TabsTrigger value="awaiting">Awaiting Review ({submitted.length})</TabsTrigger>
           <TabsTrigger value="revision">Revision ({revision.length})</TabsTrigger>
           <TabsTrigger value="approved">Approved ({approved.length})</TabsTrigger>
-          <TabsTrigger value="all">All ({DEMO_INVOICES.length})</TabsTrigger>
+          <TabsTrigger value="all">All ({invoices.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="awaiting">
@@ -57,7 +58,7 @@ export default function InvoicesPage() {
 
         <TabsContent value="all">
           <div className="space-y-3">
-            {DEMO_INVOICES.map((inv) => <InvoiceCard key={inv.id} invoice={inv} viewAs="parent" />)}
+            {invoices.map((inv) => <InvoiceCard key={inv.id} invoice={inv} viewAs="parent" />)}
           </div>
         </TabsContent>
       </Tabs>

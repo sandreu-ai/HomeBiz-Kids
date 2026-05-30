@@ -20,9 +20,11 @@ export type ProposalStatus =
 export type InvoiceStatus =
   | "DRAFT"
   | "SUBMITTED"
+  | "REVISION_REQUESTED"
+  | "RESUBMITTED"
   | "APPROVED"
   | "REJECTED"
-  | "REVISION_REQUESTED";
+  | "PAID";
 
 export type RewardType =
   | "SCREEN_TIME"
