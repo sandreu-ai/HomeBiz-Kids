@@ -3,6 +3,7 @@ import { DM_Sans, DM_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers";
 import { DemoUserSwitcher } from "@/components/dev/DemoUserSwitcher";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -134,6 +135,7 @@ export default function RootLayout({
           {children}
           <DemoUserSwitcher />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
