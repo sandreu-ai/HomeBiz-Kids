@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { DM_Sans, DM_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers";
@@ -134,6 +135,7 @@ export default function RootLayout({
           {children}
           <DemoUserSwitcher />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
